@@ -14,7 +14,7 @@
 | 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 | 4. 文本概括 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/4.%20%E6%96%87%E6%9C%AC%E6%A6%82%E6%8B%AC%20Summarizing.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本进行针对性的概括 |
-| 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
+| 5. 推断 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/5.%20%E6%8E%A8%E6%96%AD%20Inferring.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本内容的识别和分类 |
 | 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 | 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
@@ -26,8 +26,11 @@
 - [ ] 完成所有课程 当前进度 4/9
 - [ ] 第2课想到的作业 自动《先知》
 - [ ] 第4课想到的作业 自动总结《凡人修仙传章节》
+- [ ] 装修github页面
 
 ## 有趣的例子
+
+---
 
 **总结修仙斗法过程**
 
@@ -67,6 +70,8 @@ Text 1 的总结:
 
 未提供打斗细节。
 ```
+
+---
 
 **先知谈“时间”**
 
@@ -121,6 +126,122 @@ Text 1 的总结:
 无论过去、现在还是未来，时间都是无情的，它会不断流逝，
 我们唯一能做的就是珍惜它，珍惜每分每秒的生命，让我们的时间变得更加有意义和宝贵。
 ```
+
+---
+
+老魔见南宫婉
+
+```python
+fiction_text = """
+一个狭长的地下山洞内，悄然无声的走着一行白衣男女，看人数约有十五六人左右，竟是所有禁地内活下来的掩月宗弟子都在了此地，而走在最前面的，就是曾远远见过韩立一面的那位精灵一样的少女！
+
+白衣少女虽然面似童真清纯，此时却神情肃然，全身上下笼罩在了一层奇异的银辉之下，让人显得越发的神秘诡异！
+
+最让人惊讶的是，跟在少女身后的白衣男女全都一副兢兢战战的模样，竟连一个窃窃私语小声嘀咕的都没有，望向少女背影的眼神更是充满了敬畏之色！
+
+而曾在沙地出现过的刁蛮女子与她的修炼道侣也身在其中，只是脸上的骄横之色已无影无踪，和旁人一样的大气也不敢喘一下，显得格外的乖巧老实！
+"""
+
+prompt = f"""
+识别以下评论的作者表达的情感。包含不超过五个项目。将答案格式化为以逗号分隔的单词列表。
+
+评论文本: ```{fiction_text}```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+输出
+
+```
+神秘, 敬畏, 惊讶, 乖巧, 肃然
+```
+
+
+---
+
+推断5个主题
+
+```python
+long_fiction = """
+修成之后，这门神通在对敌时，能借助飞剑的剑光，另行幻化出一道和飞剑一模一样的剑影来，可迷幻敌人的视线并跟随本体一同攻击敌人。虽然剑影初成时，只有本体的威力十分之一，但随着剑诀层次的提升，其威力还可增加，到了第九层时就可有了三分之一的威力了。
+而且剑影在修炼时，可幻化的并不止一道，从第七层开始时每升一层就可多炼化出一道剑影。如此一来，青元剑诀炼至了极致，就可同时有三道和飞剑外观一样，但威力只有三分之一的剑影。
+这样看来，这“剑光分影术”的神通似乎不赖，还可一修的样子。但韩立已经知道，黄枫谷这么多筑基期的修士，并没有谁真的将其深炼下去，这其中的猫腻肯定小不了！因此他大为后悔，为何当初没有打听清楚其中的缘由，只以为肯定不会修炼这青元剑诀，所以就大大咧咧的马虎过去了。
+到如今，韩立虽然明知此法决大有问题，可还不得不硬着头皮去修炼一下，只希望此法决可别有什么类似走火入魔的后患才行。
+不过他也转念想过，其他人虽然没有深加修炼，可也有两三层在身的样子。这样看来，稍微修炼一下也没什么大问题才对。
+抱着这种自我安慰的想法，韩立无奈的按照青元剑诀的法门，吸纳起了体内快要发作的药力。
+此功法只简单的运行了一个循环，韩立就感到轰得一下，这种吸纳了药力让法力暴涨的感觉，让他舒畅的差点叫出声来！
+沉浸在这种美妙滋味中的韩立，不由得让法决一遍遍的循环下去，而神智却渐渐的神游天外了。
+不知打坐了多长时间，当韩立将体内的最后一丝药力吸纳干净的时候，终于从种美妙的体验中苏醒了过来。
+清醒过来的韩立，稍微呆滞了一下，但随后二话不说的站起身来。然后眯起眼睛歪头想了一下，就突然抬起手臂在身前比划了一下，顿时从手指上窜出了尺许长的一截青濛濛剑芒，寒气逼人，锋利无比的样子。
+见此寒光，韩立非但没高兴，反而苦笑了起来！然后手臂突然一甩，青光竟然猛然暴涨，一下变成了一丈多长，几乎就要插入对面的石墙内。
+“这下糟了，没想到残余的药力这么强，竟然一下炼成了第四层的剑诀，不知道会不会有大碍啊！”韩立脸上阴晴不定的嘀咕道。
+“不管了，顶多以后不再修炼此剑决就是了！”韩立喃喃的说道，接着把手臂一放，青色剑芒就消失了。
+不过，好奇心大起的韩立，还是捡起那本《青元剑诀》，翻看了有关护体剑盾的法决并，并默记了几遍。
+接着，韩立低头沉思了一下后，闭起了双目，紧接着再猛一睁眼，身上已出现了一个奇特的护盾。
+此护盾通体青色，和普通的防御罩差不多大小，但表面不再是通常的平滑形态，而表现出刺猬一样的芒刺状，看上去隐隐有种煞气透露出来。
+“这就是护体剑盾？”韩立仔细观察着身上的刺盾，有些惊讶。
+“剑诀上说，此盾可以自行释放剑芒，反击敌人。可惜现在无法测试一下！”韩立颇为遗憾的想道。
+"""
+
+prompt = f"""
+确定以下给定文本中讨论的五个主题。
+
+每个主题用1-2个单词概括。
+
+输出时用逗号分割每个主题。
+
+给定文本: ```{long_fiction}```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+输出
+
+```
+剑光分影术, 青元剑诀, 药力暴涨, 护体剑盾, 反击敌人
+```
+
+还是用上面这段文本
+
+```python
+prompt = f"""
+判断主题列表中的每一项是否是给定文本中的一个话题，
+
+以列表的形式给出答案，每个主题用 0 或 1。
+
+主题列表：黄枫谷、剑法、拳法、少林派、修仙、修炼、主动技能、防御技能、功法修炼、内功修炼、炼器、炼丹、种植草药
+
+给定文本: ```{long_fiction}```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+输出
+
+```
+黄枫谷：1
+剑法：1
+拳法：0
+少林派：0
+修仙：1
+修炼：1
+主动技能：1
+防御技能：1
+功法修炼：1
+内功修炼：0
+炼器：0
+炼丹：0
+种植草药：0
+```
+
+---
+
+
+
+
 
 
 
