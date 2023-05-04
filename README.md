@@ -243,7 +243,7 @@ print(response)
 
 用灼眼的夏娜的语气说话
 
-```
+```python
 prompt = f"""
 请将以下文本翻译成中文，并补充一些台词，成为符合"灼眼的夏娜"的语气的台词: 
 ```Would you like to order a pillow?```
