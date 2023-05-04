@@ -1,3 +1,14 @@
+
+# 吴恩达老师的Prompt Engineering课程学习
+
+本项目由李鲁鲁老师在DataWahle翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
+
+原来项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
+
+## 快速开始
+
+
+
 ![figures/readme.png](https://github.com/datawhalechina/prompt-engineering-for-developers/blob/main/figures/readme.jpeg)
 
 # prompt-engineering-for-developers
