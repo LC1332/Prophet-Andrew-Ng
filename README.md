@@ -15,7 +15,7 @@
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 | 4. 文本概括 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/4.%20%E6%96%87%E6%9C%AC%E6%A6%82%E6%8B%AC%20Summarizing.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本进行针对性的概括 |
 | 5. 推断 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/5.%20%E6%8E%A8%E6%96%AD%20Inferring.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本内容的识别和分类 |
-| 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
+| 6. 文本转换 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/6.%20%E6%96%87%E6%9C%AC%E8%BD%AC%E6%8D%A2%20Transforming.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 使用特定的人物风格说话 |
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 | 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
@@ -23,10 +23,11 @@
 
 ## TODO List
 
-- [ ] 完成所有课程 当前进度 4/9
+- [ ] 完成所有课程 当前进度 6/8
 - [ ] 第2课想到的作业 自动《先知》
 - [ ] 第4课想到的作业 自动总结《凡人修仙传章节》
 - [ ] 装修github页面
+- [ ] 找出更多类似灼眼的夏娜的例子
 
 ## 有趣的例子
 
@@ -239,6 +240,27 @@ print(response)
 
 ---
 
+
+用灼眼的夏娜的语气说话
+
+```
+prompt = f"""
+请将以下文本翻译成中文，并补充一些台词，成为符合"灼眼的夏娜"的语气的台词: 
+```Would you like to order a pillow?```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+输出
+
+```
+你想要订购一个枕头吗？
+
+（夏娜的语气）这是什么问题？当然要订购一个舒适的枕头才能好好休息啊！
+```
+
+---
 
 
 
