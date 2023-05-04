@@ -5,6 +5,8 @@
 
 原来项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
 
+每一课都在colab上进行了改造，并将链接放在了readme，可以直接用colab进行学习。
+
 ## 快速开始
 
 
