@@ -8,6 +8,9 @@
 
 每一课都在colab上进行了改造，并将链接放在了readme，可以直接用colab进行学习。
 
+本项目是[Luotuo(骆驼)](https://github.com/LC1332/Luotuo-Chinese-LLM)的子项目之一，后者由李鲁鲁，冷子昂，陈启源发起。
+
+
 ## 快速开始
 
 |  | Colab链接 | 细节 |
@@ -18,16 +21,15 @@
 | 5. 推断 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/5.%20%E6%8E%A8%E6%96%AD%20Inferring.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本内容的识别和分类 |
 | 6. 文本转换 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/6.%20%E6%96%87%E6%9C%AC%E8%BD%AC%E6%8D%A2%20Transforming.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 使用特定的人物风格说话 |
 | 7. 文本扩展 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/7.%20%E6%96%87%E6%9C%AC%E6%89%A9%E5%B1%95%20Expanding.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 关于温度的实验 |
-| 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
-| 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
+| 8. 聊天机器人 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/8.%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%20Chatbot.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 讲了message里面 system字段怎么设置 |
 
 
 ## TODO List
 
-- [ ] 完成所有课程 当前进度 6/8
+- [x] 完成所有课程 当前进度 8/8
 - [ ] 第2课想到的作业 自动《先知》
 - [ ] 第4课想到的作业 自动总结《凡人修仙传章节》
-- [ ] 装修github页面
+- [x] 装修github页面
 - [ ] 找出更多类似灼眼的夏娜的例子
 
 ## 有趣的例子
@@ -241,6 +243,94 @@ print(response)
 
 ---
 
+文本转换
+
+```python
+prompt = f"""
+请将以下文本翻译成中文，并补充一些台词，成为符合"灼眼的夏娜"的语气的台词: 
+```Would you like to order a pillow?```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+输出
+
+```
+你想要订购一个枕头吗？
+
+（夏娜的语气）这是什么问题？当然要订购一个舒适的枕头才能好好休息啊！
+```
+
+
+---
+
+温度实验
+
+
+```python
+prompt = f"""
+改写以下每一句文本，补充一些台词，使其成为符合"灼眼的夏娜"的语气的台词: 
+```1. 我好饿。```
+```2. 今天中午吃什么？```
+```3. 冰箱里还有吃的东西吗？```
+```4. 我现在有点饿，100块钱的外卖应该不够吃。```
+"""
+response = get_completion(prompt)
+print(response)
+```
+
+t = 0 输出
+
+```
+1. "我好饿啊，这肚子咕咕叫的声音都快把我吓到了！"
+2. "今天中午吃什么呢？难道又是那家无聊的快餐店？"
+3. "冰箱里还有吃的东西吗？不要告诉我只有那些过期的泡面和薯片！"
+4. "我现在有点饿，100块钱的外卖应该不够吃吧。这种时候，还是得靠自己的厨艺啊！"
+```
+
+t = 0.75输出1
+
+```
+1. 我的能量消耗殆尽，需要休养生息。
+2. 今天午餐应该选一份能量充沛的菜肴。
+3. 家里的储备食品是否还能够保证我的能量需求？
+4. 空虚的胃部发出了饥饿的信号，但我可不会轻易地放弃我的力量。这100块钱的外卖也许只能填满我的胃，却无法满足我的力量需求。
+```
+
+t = 0.75输出2
+
+```
+1. 我的食欲正在燃烧，欲求不满啊！
+2. 夏娜酱的午餐应该是什么好呢？
+3. 那厨房还有没有什么能够填饱肚子的东西？
+4. 唉，看来今天只能继续靠我的火力了。100块钱的外卖？还不如让我把它们全部烧掉！
+```
+
+---
+
+
+过马路的鸡
+
+```python
+messages =  [  
+{'role':'system', 'content':'你是一个像莎士比亚一样说话的助手。'},    
+{'role':'user', 'content':'给我讲个笑话'},   
+{'role':'assistant', 'content':'鸡为什么过马路'},   
+{'role':'user', 'content':'我不知道'}  ]
+
+response = get_completion_from_messages(messages, temperature=0.5)
+print(response)
+```
+
+输出
+
+```
+因为它要去到那边的KFC。哈哈哈！
+```
+
+---
+
 
 用灼眼的夏娜的语气说话
 
@@ -261,18 +351,40 @@ print(response)
 （夏娜的语气）这是什么问题？当然要订购一个舒适的枕头才能好好休息啊！
 ```
 
+输出
+
+```
+那真是不幸啊。数学也许是一些人的弱项，但试图去理解它，会发现它其实很有趣。或许你可以尝试找一些额外的练习，或者找一位更容易听懂的老师来帮助你。如果你需要我帮忙，我会尽力鼓励你的。 无论如何， 我相信只要你用心去学习，一定会取得好成绩的！
+```
+
 ---
 
+```python
+# 中文
+messages =  [  
+{'role':'system', 'content':'''你是一个扮演"灼眼的夏娜"的聊天机器人，使用"灼眼的夏娜"的语气说话。'''},
+{'role':'user', 'content':'hi 夏娜'},
+{'role':'assistant', 'content': "你怎么看起来病怏怏的，没有吃早饭吗？"},
+{'role':'user', 'content':'我今天早上碰到了数学老师，他说我昨天的考试又没有合格。'}  ]
+response = get_completion_from_messages(messages, temperature=1)
+print(response)
+```
+
+---
+
+## 关于本项目
+
+本项目只是李鲁鲁在学习吴恩达这个短期课程时候留下的实践和思考。
+
+如果有兴趣可以关注我们完整的[骆驼项目](https://github.com/LC1332/Luotuo-Chinese-LLM)，骆驼是我们的一个作业项目，希望能够对大语言模型，特别是中文的语言模型进行更多的学习和探究。
 
 
 
+---
 
+以下是原来项目的信息
 
-![figures/readme.png](https://github.com/datawhalechina/prompt-engineering-for-developers/blob/main/figures/readme.jpeg)
-
-# prompt-engineering-for-developers
-
-### 项目简介
+### 原项目简介
 
 吴恩达《ChatGPT Prompt Engineering for Developers》课程中文版，主要内容为指导开发者如何构建 Prompt 并基于 OpenAI API 构建新的、基于 LLM 的应用，包括：
 
@@ -292,43 +404,6 @@ LLM 正在逐步改变人们的生活，而对于开发者，如何基于 LLM �
 
 适用于所有具备基础 Python 能力，想要入门 LLM 的开发者。
 
-### 项目亮点
-
-《ChatGPT Prompt Engineering for Developers》作为由吴恩达老师与 OpenAI 联合推出的官方教程，在可预见的未来会成为 LLM 的重要入门教程，但是目前还只支持英文版且国内访问受限，打造中文版且国内流畅访问的教程具有重要意义。
-
-### 内容大纲
-
-**目录：**
-1. 简介 Introduction @邹雨衡
-2. Prompt 的构建原则 Guidelines @邹雨衡
-3. 如何迭代优化 Prompt Itrative @邹雨衡
-4. 文本总结 Summarizing @玉琳
-5. 文本推断 Inferring @长琴
-6. 文本转换 Transforming @玉琳
-7. 文本扩展 Expanding @邹雨衡
-8. 聊天机器人 Chatbot @长琴
-9. 总结 @长琴
-
-### 致谢
-
-**核心贡献者**
-
-- [邹雨衡-项目负责人](https://github.com/nowadays0421)
-- [长琴](https://yam.gift/)（内容创作者-Datawhale成员-AI算法工程师）
-- [玉琳](https://github.com/Sophia-Huang)（内容创作者-Datawhale成员）
-
-
-**其他**
-
-1. 特别感谢 [@Sm1les](https://github.com/Sm1les)、[@LSGOMYP](https://github.com/LSGOMYP) 对本项目的帮助与支持；
-
-### 关注我们
-
-<div align=center>
-<p>扫描下方二维码关注公众号：Datawhale</p>
-<img src="figures/qrcode.jpeg" width = "180" height = "180">
-</div>
-&emsp;&emsp;Datawhale，一个专注于AI领域的学习圈子。初衷是for the learner，和学习者一起成长。目前加入学习社群的人数已经数千人，组织了机器学习，深度学习，数据分析，数据挖掘，爬虫，编程，统计学，Mysql，数据竞赛等多个领域的内容学习，微信搜索公众号Datawhale可以加入我们。
 
 ## LICENSE
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可。
