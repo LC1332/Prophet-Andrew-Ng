@@ -21,6 +21,12 @@
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 
 
+## TODO List
+
+- [ ] 完成所有课程 当前进度 4/9
+- [ ] 第2课想到的作业 自动《先知》
+- [ ] 第4课想到的作业 自动总结《凡人修仙传章节》
+
 ## 有趣的例子
 
 **总结修仙斗法过程**
