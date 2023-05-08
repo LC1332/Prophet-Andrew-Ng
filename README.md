@@ -8,6 +8,10 @@
 
 原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
 
+<p align="center">
+    <img src="figures/icon.png">
+</p>
+
 每一课都在colab上进行了改造，并将链接放在了readme，可以直接用colab进行学习。
 
 本项目是[Luotuo(骆驼)](https://github.com/LC1332/Luotuo-Chinese-LLM)的子项目之一，后者由李鲁鲁，冷子昂，陈启源发起。
