@@ -1,8 +1,10 @@
-# 吴恩达老师的Prompt Engineering课程学习
+# 骆驼先知 —— 模仿纪伯伦《先知的哲学讨论》
 
-本项目由李鲁鲁在DataWhale翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
+吴恩达老师的Prompt Engineering课程学习
 
-项目链接 [https://github.com/LC1332/prompt-ng-andrew](https://github.com/LC1332/prompt-ng-andrew)
+这个项目本来由李鲁鲁在DataWhale翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
+
+项目链接 [https://github.com/LC1332/Prophet-Andrew-Ng](https://github.com/LC1332/Prophet-Andrew-Ng)
 
 原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
 
@@ -15,6 +17,9 @@
 
 |  | Colab链接 | 细节 |
 | --- | --- | :--- |
+| 骆驼先知 | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的Gradio交互版本 |
+| 骆驼先知-IR | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的notebook版本 |
+| 骆驼先知-随机 | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的随机版本 |
 | 2. 提示原则 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 基础的课程 |
 | 3. 迭代优化 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/3.%20%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%20Iterative.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 针对一个椅子商品描述的迭代优化 |
 | 4. 文本概括 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/4.%20%E6%96%87%E6%9C%AC%E6%A6%82%E6%8B%AC%20Summarizing.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 对文本进行针对性的概括 |
