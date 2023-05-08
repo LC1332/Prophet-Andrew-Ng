@@ -9,7 +9,7 @@
 原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
 
 <p align="center">
-    <img src="figures/icon.png">
+    <img src="figures/icon.png" height="300">
 </p>
 
 每一课都在colab上进行了改造，并将链接放在了readme，可以直接用colab进行学习。
