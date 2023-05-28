@@ -10,6 +10,7 @@
 
 + 模仿凉宫春日语气的《Chat凉宫春日》[关于Chat凉宫春日](#关于Chat凉宫春日)
 
+你也可以把这个项目看成是李鲁鲁对于Prompt Engineering和LangChain的实践
 
 <p align="center">
     <img src="figures/icon.png" height="300">
@@ -22,8 +23,10 @@
 
 ## 快速开始
 
+
 |  | Colab链接 | 细节 |
 | --- | --- | :--- |
+| Chat凉宫春日 | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/haruhi.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 凉宫春日的Gradio交互版本 |
 | 骆驼先知 | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的Gradio交互版本 |
 | 骆驼先知-IR | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的notebook版本 |
 | 骆驼先知-随机 | <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/prophet-gradio.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 骆驼先知的随机版本 |
