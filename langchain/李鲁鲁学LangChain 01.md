@@ -271,5 +271,43 @@ Small
 
 ---
 
-我感觉相比Andrew的课程来说，Sam一节课的内容是偏少的。
+我感觉相比Andrew的课程来说，Sam一节课的内容是偏少的。所以一次笔记打算记两节课的内容
+
+## Tools and Chains
+
+第二节课主要会有关Tools和Chains
+
+Tools就是LangChain的Chain中的某个单个的环节
+
+就好像一个单句的python语句
+
+他这里Sam说Tool还支持像GPT4能用的那些比如沃尔夫勒姆 或者 搜索引擎那些工具
+
+Chain = PromptTemplate + LLM
+
+Chain支持LLM->API->LLM->PAL->LLM的应用
+
+其实就是能够吧一个tool的输出 组织成下一个tool的输入
+
+有三种不同类型的Chain
+
++ Generic Chain
+
+    + 第一类最常见的是LLMChain，前面已经见过了
+
+    + 第二常见的是Transformation Chain，这个可以理解为组织字符串输入，运行一些python代码再给输出了
+
+    + 第三Sequential Chain，其实就是组合模式，一个chain也可以看成工具
+
++ Utility Chain
+
+    + Pal Chain 将一个Reasoning问题转化为python代码
+
+    + SQL Database Chain 顾名思义
+
+    + Bash 可以运行Bash命令
+
+    + Request Chain
+
++ Asyncronous Chain
 
