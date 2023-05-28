@@ -181,4 +181,90 @@ Few Shot Prompt Template可以在模型中加入多组示例数据，并在每�
 作者通过一个示例，展示了如何使用Few Shot Prompt Template来创建一个词汇的反义词查询服务。通过传入多组示例数据和设置相应的前缀和后缀，作者最终得到了一个完整的查询模型，并演示了如何输入一个单词来查询它的反义词。
 ```
 
+其实FewShotPromptTemplate就是一个可以用来组织prompt的一个范式
+
+```python
+from langchain import PromptTemplate, FewShotPromptTemplate
+
+# First, create the list of few shot examples.
+examples = [
+    {"word": "happy", "antonym": "sad"},
+    {"word": "tall", "antonym": "short"},
+]
+
+# Next, we specify the template to format the examples we have provided.
+# We use the `PromptTemplate` class for this.
+example_formatter_template = """
+Word: {word}
+Antonym: {antonym}\n
+"""
+
+example_prompt = PromptTemplate(
+    input_variables=["word", "antonym"],
+    template=example_formatter_template,
+)
+```
+
+这样其实就完成了对example_prompt的组织。然后后面这个设计其实还挺细心的，让我们让GPT老师来翻译后面
+
+```python
+few_shot_prompt = FewShotPromptTemplate(
+    # 这是我们要插入到提示中的样例。
+    examples=examples,
+    # 这是我们在将样例插入到提示时想要格式化样例的方式。
+    example_prompt=example_prompt,
+    # 前缀是在样例之前放置的一些文本。通常，它包含说明信息。
+    prefix="给出每个输入的反义词",
+    # 后缀是在样例之后放置的一些文本。通常，用户的输入会被放在这里。
+    suffix="单词：{input}\n反义词：",
+    # input_variables 是整个提示想要的变量。
+    input_variables=[“input”],
+    # example_separator 是我们将用来连接前缀、样例和后缀的字符串。
+    example_separator="\n\n",
+)
+
+# We can now generate a prompt using the `format` method.
+print(few_shot_prompt.format(input="big"))
+```
+
+这里的输出
+
+```
+给出每个输入的反义词
+
+Word: happy
+Antonym: sad
+
+Word: tall
+Antonym: short
+
+单词：big
+反义词：
+```
+
+这里我们发现一个问题，也就是你example_formatter_template 和 suffix 是要一致
+
+另外从这个输出我们可以看到他这个本质上是把数据组织成了
+
+```
+prefix [example_separator example_prompt]*N example_separator suffix
+```
+
+这个形式，当组织完这些，你再去要一个新的词的反义词，你就可以用这个指令
+
+```python
+from langchain.chains import LLMChain
+
+chain = LLMChain(llm=llm, prompt=few_shot_prompt)
+
+# Run the chain only specifying the input variable.
+print(chain.run("Big"))
+```
+
+这样他输出就会是
+
+```
+Small
+```
+
 
