@@ -53,7 +53,15 @@
 
 ## 关于LangChain笔记
 
-因为
+因为Andrew Ng的课程是不设计LangChain的，我们不如在这个Repo里面也顺便记录一下LangChain的学习。
+
+李鲁鲁最早关于LangChain的使用是在Chat凉宫春日的搭建中，因为在Camel那个项目中，发现LangChain可以做断点重试这样的尝试
+
+所以在Chat凉宫春日中，李鲁鲁就接入了LangChain，你可以在  <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/haruhi.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 这个脚本中找到这个代码。
+
+后来想想还是把Sam那个LangChain的课程刷一下。在[快速开始](#快速开始)的那个表格中可以看到已经刷掉的视频部分。
+
+Sam是个很不错的YouTuber，他的每个视频往往都有colab的notebook。
 
 ## 关于骆驼先知
 
