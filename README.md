@@ -1,12 +1,15 @@
 # 骆驼先知 —— 模仿纪伯伦《先知的哲学讨论》
 
-吴恩达老师的Prompt Engineering课程学习
+这个项目现在包含4个部分
 
-这个项目本来由李鲁鲁在DataWhale翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
++ 吴恩达老师的Prompt Engineering课程学习 [Prompt Engineering笔记](#关于Prompt_Engineering课程)
 
-项目链接 [https://github.com/LC1332/Prophet-Andrew-Ng](https://github.com/LC1332/Prophet-Andrew-Ng)
++ Sam Witteveen的LangChain学习笔记 [LangChain笔记](#关于LangChain笔记)
 
-原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
++ 模仿纪伯伦《先知的哲学讨论》 [关于骆驼先知](#关于骆驼先知)
+
++ 模仿凉宫春日语气的《Chat凉宫春日》[关于Chat凉宫春日](#关于Chat凉宫春日)
+
 
 <p align="center">
     <img src="figures/icon.png" height="300">
@@ -33,17 +36,26 @@
 | 8. 聊天机器人 | <a href="https://colab.research.google.com/github/LC1332/prompt-ng-andrew/blob/main/content/8.%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%20Chatbot.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> | 讲了message里面 system字段怎么设置 |
 
 
-## TODO List
+---
 
-- [x] 完成所有课程 当前进度 8/8
-- [ ] 第2课想到的作业 自动《先知》
-- [ ] 第4课想到的作业 自动总结《凡人修仙传章节》
-- [x] 装修github页面
-- [ ] 找出更多类似灼眼的夏娜的例子
+## 关于Prompt_Engineering课程
 
-## 有趣的例子
+这个项目的第一部分，最早由李鲁鲁在DataWhale翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
+
+项目链接 [https://github.com/LC1332/Prophet-Andrew-Ng](https://github.com/LC1332/Prophet-Andrew-Ng)
+
+原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
+
+## 关于LangChain笔记
+
+## 关于骆驼先知
+
+## 关于Chat凉宫春日
+
 
 ---
+
+## 有趣的例子
 
 **总结修仙斗法过程**
 
