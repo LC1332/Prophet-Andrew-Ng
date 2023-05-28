@@ -10,7 +10,7 @@
 
 + 模仿凉宫春日语气的《Chat凉宫春日》[关于Chat凉宫春日](#关于Chat凉宫春日)
 
-你也可以把这个项目看成是李鲁鲁对于Prompt Engineering和LangChain的实践
+你也可以把这个项目看成是李鲁鲁对于Prompt Engineering和LangChain的实践。
 
 <p align="center">
     <img src="figures/icon.png" height="300">
@@ -45,11 +45,15 @@
 
 这个项目的第一部分，最早由李鲁鲁在DataWhale翻译的中文版本的吴恩达老师与 OpenAI 合作推出的 《ChatGPT Prompt Engineering for Developers》基础上，进行了一些自己的实践思考。
 
+在[快速开始](#快速开始)的2-8分别是这个课程的内容，加上了李鲁鲁自己的思考。
+
 项目链接 [https://github.com/LC1332/Prophet-Andrew-Ng](https://github.com/LC1332/Prophet-Andrew-Ng)
 
 原来DataWhale项目的链接是 [https://github.com/datawhalechina/prompt-engineering-for-developers](https://github.com/datawhalechina/prompt-engineering-for-developers)
 
 ## 关于LangChain笔记
+
+因为
 
 ## 关于骆驼先知
 
