@@ -267,4 +267,7 @@ print(chain.run("Big"))
 Small
 ```
 
+其实如果我们单看最后三行代码，整体还是比较简洁的，并且他直接把整体的prompt，又实现成为一个LLMChain，这样只要LLMChain.run(输入)，就可以要到对应的输出。
+
+
 
