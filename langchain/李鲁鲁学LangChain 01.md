@@ -303,6 +303,18 @@ Chain = PromptTemplate + LLM
 
 Chain支持LLM->API->LLM->PAL->LLM的应用
 
+（鲁鲁的comments：
+
+```python
+from langchain.chains import SimpleSequentialChain, SequentialChain
+
+full_chain = SimpleSequentialChain(chains=[fact_extraction_chain, investor_update_chain], verbose=True)
+
+response = full_chain.run(article)
+```
+
+其实就是为了引出这样一个用法，Sam讲得还是比较细的）
+
 其实就是能够吧一个tool的输出 组织成下一个tool的输入
 
 有三种不同类型的Chain
@@ -356,3 +368,183 @@ facts = fact_extraction_chain.run(article)
 
 print(facts)
 ```
+
+这里对一个相对比较长（3000个字符）的文本去做一个信息提取，输出如下
+
+```
+1. Coinbase released its Q4 2022 earnings on Tuesday.
+2. Coinbase generated $605 million in total revenue in Q4 2022.
+3. Coinbase lost $557 million in the three-month period on a GAAP basis.
+4. Wall Street expected Coinbase to report $581.2 million in revenue.
+5. Coinbase's stock had risen 86% year-to-date before its Q4 earnings were released.
+6. Consumer trading volumes fell from $26 billion in Q3 2022 to $20 billion in Q4 2022.
+7. Institutional volumes across the same timeframe fell from $133 billion to $125 billion.
+8. The overall crypto market capitalization fell about 64%, or $1.5 trillion during 2022.
+9. Coinbase's total trading volumes and transaction revenues fell 50% and 66% year-over-year, respectively.
+10. Trading revenue at Coinbase fell from $365.9 million in Q3 2022 to $322.1 million in Q4 2022.
+11. Coinbase's "subscription and services revenue" rose from $210.5 million in Q3 2022 to $282.8 million in Q4 2022.
+12. Monthly active developers in crypto have more than doubled since
+```
+
+这是一个最简单的Chain的形式。简单连接了输入和语言模型。 PromptTemplate在第一节课已经实践了，你可以理解成这是一种简单的去组合格式化字符串的方式。
+
+这里我不敢直接把文本全翻译成中文，是因为他这个程序后面都是连接的 facts变量很快要作为后面的输入，所以我们先跑一遍他基础的程序。再来看怎么改。
+
+
+## 第二步
+
+在第二步中，会把facts再作为输入
+
+``` python
+investor_update_prompt = PromptTemplate(
+    input_variables=["facts"],
+    template="You are a Goldman Sachs analyst. Take the following list of facts and use them to write a short paragrah for investors. Don't leave out key info:\n\n {facts}"
+)
+
+investor_update_chain = LLMChain(llm=llm, prompt=investor_update_prompt)
+
+investor_update = investor_update_chain.run(facts)
+
+print(investor_update)
+```
+
+输出为
+
+```
+Coinbase released its Q4 2022 earnings on Tuesday, reporting total revenue of $605 million, which was slightly above Wall Street's expectations of $581.2 million. Despite the positive revenue figure, Coinbase reported a GAAP loss of $557 million in the three-month period. Coinbase's stock had risen 86% year-to-date before its Q4 earnings were released. Consumer trading volumes fell from $26 billion in Q3 2022 to $20 billion in Q4 2022, while institutional volumes across the same timeframe fell from $133 billion to $125 billion. The overall crypto market capitalization fell about 64%, or $1.5 trillion during 2022, leading to a 50% and 66% year-over-year decline in Coinbase's total trading volumes and transaction revenues, respectively. Trading revenue at Coinbase fell from $365.9 million in Q3 2022 to $322.1 million in Q4 2022, while its "subscription and services revenue" rose from $210.5 million in Q3 2022 to $282.8 million in Q4 2022. Despite the overall decline in the crypto market, monthly active developers in crypto have more than doubled since the start of 2022.
+```
+
+当然这里让我感到有点无聊的是现在这个例子里面 传递的都是text
+
+这样即使我们不使用LangChain的范式也可以很方便的自己写出来。
+
+当然后面的课程会慢慢复杂起来，让我们事无巨细地一点点继续刷这个教程吧。
+
+
+## 将事实转化为知识图谱的三元组
+
+使用一个其他的prompt可以把刚才的facts变成一个三元组
+
+```python
+triples_prompt = PromptTemplate(
+    input_variables=["facts"],
+    template="Take the following list of facts and turn them into triples for a knowledge graph:\n\n {facts}"
+)
+
+triples_chain = LLMChain(llm=llm, prompt=triples_prompt)
+
+triples = triples_chain.run(facts)
+
+print(triples)
+```
+
+输出是这样的
+
+```
+1. (Coinbase, released, Q4 2022 earnings)
+2. (Coinbase, generated, $605 million total revenue)
+3. (Coinbase, lost, $557 million GAAP basis)
+4. (Wall Street, expected, $581.2 million revenue)
+5. (Coinbase's stock, risen, 86% year-to-date)
+6. (Consumer trading volumes, fell, $26 billion Q3 2022)
+7. (Institutional volumes, fell, $133 billion)
+8. (Overall crypto market capitalization, fell, $1.5 trillion)
+9. (Coinbase's total trading volumes, fell, 50% year-over-year)
+10. (Coinbase's transaction revenues, fell, 66% year-over-year)
+11. (Trading revenue, fell, $365.9 million Q3 2022)
+12. (Coinbase's subscription and services revenue, rose, $210.5 million Q3 2022)
+13. (Monthly active developers in crypto, more than doubled, since start of 2022)
+```
+
+## 用SequentialChain连接多个Chain
+
+```python
+from langchain.chains import SimpleSequentialChain, SequentialChain
+
+full_chain = SimpleSequentialChain(chains=[fact_extraction_chain, investor_update_chain], verbose=True)
+
+response = full_chain.run(article)
+```
+
+这实际上就把刚才的关键信息提取和转写 合并成一个chain了
+
+输出的时候，Chain上的每个tool会用不同的颜色输出。
+
+接着response会给最终的输出
+
+其实这里就是这个视频的核心思想。
+
+## PALChain
+
+Sam对这个PAL Chain很感兴趣，还说要额外做一个视频
+
+PALChain会用到code-davinci-002的模型（我估计StarCoder也有办法接）。这个除了copilot以外我也没有用过这个模型
+
+不过不幸的消息是Codex这个接口已经被OpenAI弃用了，根据官网的提示我们仍然去使用text-davinci-003
+
+```python
+from langchain.chains import PALChain
+
+llm = OpenAI(model_name='text-davinci-003', 
+             temperature=0, 
+             max_tokens=512)
+
+pal_chain = PALChain.from_math_prompt(llm, verbose=True)             
+```
+
+这里使用了一个LangChain在PALChain里面预置的一个prompt
+
+如果你打印pal_chain这个对象，可以看到这个prompt，里面都是
+
+```
+Q: 应用题
+solution in Python: 代码
+```
+
+格式的例子
+
+然后输入问题（这个问题和PAL paper中的一致）
+
+```python
+question_02= "The cafeteria had 23 apples. If they used 20 for lunch and bought 6 more, how many apples do they have?"
+pal_chain.run(question_02)
+```
+
+```python
+> Entering new PALChain chain...
+def solution():
+    """The cafeteria had 23 apples. If they used 20 for lunch and bought 6 more, how many apples do they have?"""
+    apples_initial = 23
+    apples_used = 20
+    apples_bought = 6
+    apples_total = apples_initial + apples_bought - apples_used
+    result = apples_total
+    return result
+
+> Finished chain.
+9
+```
+
+Sam在这里给了另一个问题
+
+```python
+question = "Jan has three times the number of pets as Marcia. Marcia has two more pets than Cindy. If Cindy has four pets, how many total pets do the three have?"
+```
+
+给的答案是
+
+```python
+> Entering new PALChain chain...
+def solution():
+    """Jan has three times the number of pets as Marcia. Marcia has two more pets than Cindy. If Cindy has four pets, how many total pets do the three have?"""
+    cindy_pets = 4
+    marcia_pets = cindy_pets + 2
+    jan_pets = marcia_pets * 3
+    total_pets = cindy_pets + marcia_pets + jan_pets
+    result = total_pets
+    return result
+
+> Finished chain.
+28
+```
+
