@@ -1,4 +1,4 @@
-# 李鲁鲁学LangChain 01 LLMs + Prompting
+# 【骆驼LangChain笔记】LangChain基础, LLMChain, Prompt模版, 数学问题自动转代码求解的PALChain
 
 这是李鲁鲁的学习笔记，原来是Sam Witteveen的笔记
 
@@ -9,6 +9,10 @@
 增加了李鲁鲁学习时候的吐槽
 
 上这个课程的原因是Andrew的课程没有去照顾langchain的使用。而Sam的课看起来还挺好的，并且每节课都有colab
+
+第一节课 colab <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain_01_LLMs_%2B_Prompting.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+
+第二节课 colab <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain_02_Tools_and_Chains.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
 
 ---
 
@@ -603,3 +607,23 @@ https://api.open-meteo.com/v1/forecast?latitude=1.3521&longitude=103.8198&curren
  It is currently raining in Singapore, with a temperature of 27.8°C and a windspeed of 9.2 km/h.
 ```
 
+他会正常回答是不是下雨，气温和风速。
+
+后面Sam说这样做确实有些贵而没必要。
+
+当然在后面的Pandas.AI的一个课程中，他说其实也可以先看看GPT是怎么写代码的，再把这些代码固化下来，也是个不错的思路。
+
+## 后面的课程
+
+下面两节是ChatGPT API Announcement & Code Walkthrough with LangChain
+
+和LangChain - Conversations with Memory (explanation & code walkthrough)
+
+Sam目前有26个视频，整体还是挺多的。考虑6月份都刷完吧。
+
+## 关于骆驼
+我们在积极寻求服务器资源（A100，A800的服务器）的捐赠，当然你也可以去我们的项目页找到赞助链接来对我们进行支持。所有的赞助资源将会用在服务器资源的购买、数据的获取、社区的正常运维和周边的发放。如果你有兴趣用中文复现上面的一些前沿工作，也欢迎和我们讨论。
+
+[骆驼：开源中文大语言模型](​github.com/LC1332/Luotuo-Chinese-LLM)
+
+骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢
