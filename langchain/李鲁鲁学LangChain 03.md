@@ -9,8 +9,6 @@
 会比使用text-davinci-003模型便宜10倍，并且也会得到更快的响应
 
 
-
-
 ## OpenAI使用传统方式
 
 我们都知道OpenAI现在3.5的接口是这么去使用的
@@ -55,17 +53,9 @@ response = openai.ChatCompletion.create(
 
 这里Sam很细节的回顾了OpenAI把这个新的接口叫做ChatML(Chat Markup Language)
 
-
-Traditionally, GPT models consumed unstructured text. ChatGPT models
-instead expect a structured format, called Chat Markup Language
-(ChatML for short).
-ChatML documents consist of a sequence of messages. Each message
-contains a header (which today consists of who said it, but in the
-future will contain other metadata) and contents (which today is a
-text payload, but in the future will contain other datatypes).
-We are still evolving ChatML, but the current version (ChatML v0) can
-be represented with our upcoming "list of dicts" JSON format as
-follows:
+传统上，GPT 模型会消化无结构的文本。相反，ChatGPT 模型需要一种结构化格式，称为聊天标记语言（简称 ChatML）。
+ChatML 文档包含一系列消息。每个消息包含一个头部（目前包括谁说了它，但将来将包含其他元数据）和内容（目前是文本有效载荷，但将来将包含其他数据类型）。
+我们仍在发展 ChatML，但当前版本（ChatML v0）可以用我们即将推出的“字典列表” JSON 格式表示如下：
 
 ```
 [
@@ -80,9 +70,9 @@ follows:
  {"token": "<|im_end|>"}, "\n"
 ]
 ```
-You could also represent it in the classic "unsafe raw string"
-format. However, this format inherently allows injections from user
-input containing special-token syntax, similar to SQL injections:
+
+你还可以用经典的“不安全原始字符串”格式表示它。但是，这种格式固有地允许包含特殊令牌语法的用户输入注入，类似于 SQL 注入
+
 ```
 <|im_start|>system
 You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.
@@ -95,11 +85,11 @@ I am doing well!<|im_end|>
 <|im_start|>user
 How are you now?<|im_end|>
 ```
-## Non-chat use-cases
-ChatML can be applied to classic GPT use-cases that are not
-traditionally thought of as chat. For example, instruction following
-(where a user requests for the AI to complete an instruction) can be
-implemented as a ChatML query like the following:
+
+## 非聊天用例
+
+ChatML 可应用于传统上不被视为聊天的经典 GPT 用例。例如，可以将指令跟随（其中用户请求 AI 完成指令）实现为类似以下的 ChatML 查询：
+
 ```
 [
  {"token": "<|im_start|>"},
@@ -108,7 +98,9 @@ implemented as a ChatML query like the following:
  "assistant"
 ]
 ```
+
 We do not currently allow autocompleting of partial messages, 
+
 ```
 [
  {"token": "<|im_start|>"},
@@ -117,17 +109,13 @@ We do not currently allow autocompleting of partial messages,
  "user\nThis morning I decided to eat a giant"
 ]
 ```
-Note that ChatML makes explicit to the model the source of each piece
-of text, and particularly shows the boundary between human and AI
-text. This gives an opportunity to mitigate and eventually solve
-injections, as the model can tell which instructions come from the
-developer, the user, or its own input.
 
-## Few-shot prompting
+请注意，ChatML 明确告诉模型每个文本片段的来源，特别是显示人类文本和 AI 文本之间的边界。这为缓解和最终解决注入提供了机会，因为模型可以告诉哪些指令来自开发人员、用户或其自己的输入。
 
-In general, we recommend adding few-shot examples using separate
-`system` messages with a `name` field of `example_user` or
-`example_assistant`. For example, here is a 1-shot prompt:
+## 少量训练提示
+
+一般而言，我们建议使用带有 `name` 字段为 `example_user` 或 `example_assistant` 的独立 `system` 消息添加少量训练示例。例如，下面是一个 1-shot 提示：
+
 ```
 <|im_start|>system
 Translate from English to French
@@ -141,11 +129,6 @@ Comment allez-vous?
 <|im_start|>user
 {{user input here}}<|im_end|>
 ```
-If adding instructions in the `system` message doesn't work, you can
-also try putting them into a `user` message. (In the near future, we
-will train our models to be much more steerable via the system
-message. But to date, we have trained only on a few system messages,
-so the models pay much more attention to user examples.)
 
 让我们回到接口
 
@@ -270,5 +253,8 @@ llm_chain.run(user_input)
 
 ---
 
+```<span style="color:red">example text</span>```
 
+
+<span style="color:red">example text</span>
 

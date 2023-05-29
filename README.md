@@ -53,7 +53,7 @@
 
 ## 关于LangChain笔记
 
-因为Andrew Ng的课程是不设计LangChain的，我们不如在这个Repo里面也顺便记录一下LangChain的学习。
+因为Andrew Ng的课程是不涉及LangChain的，我们不如在这个Repo里面也顺便记录一下LangChain的学习。
 
 李鲁鲁最早关于LangChain的使用是在Chat凉宫春日的搭建中，因为在Camel那个项目中，发现LangChain可以做断点重试这样的尝试
 
