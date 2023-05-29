@@ -8,6 +8,11 @@
 
 会比使用text-davinci-003模型便宜10倍，并且也会得到更快的响应
 
+第三节课 colab <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain_03_Turbo3_5%E6%8E%A5%E5%8F%A3%E6%8E%A5%E5%85%A5LangChain.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+
+
+第四节课 colab <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain_04_Chatbot_with_Memory.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+
 
 ## OpenAI使用传统方式
 
@@ -250,6 +255,9 @@ llm_chain.run(user_input)
 在第三节课的视频里面提到了每次对话对于llm_chain.run都是独立的。这个时候就要使用LangChain的memory模块来对过往对话进行组织
 
 所以第三节课就结束了，相比吴恩达的一个视频，Sam的视频还是比较短的。在这里我们快速进入第四节课
+
+第四节课 colab <a href="https://colab.research.google.com/github/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain_04_Chatbot_with_Memory.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> 
+
 
 ---
 
@@ -519,6 +527,8 @@ pprint(conversation.memory.store)
 （比如是否健谈，是否只基于事实，这个大家可以自己再去看看代码）
 
 后面两节课讲的是Flan20B和如何在本地使用Hugging Face的模型。
+
+因为我明天早上还要写VisualGLM和BLIP-Instruct的对比，所以今天先发两篇笔记吧，一鼓作气把明天的作业提前交了。
 
 ## 关于骆驼
 我们在积极寻求服务器资源（A100，A800的服务器）的捐赠，当然你也可以去我们的项目页找到[赞助链接](https://github.com/LC1332/Luotuo-Chinese-LLM#sponsorship)来对我们进行支持。所有的赞助资源将会用在服务器资源的购买、数据的获取、社区的正常运维和周边的发放。如果你有兴趣用中文复现上面的一些前沿工作，也欢迎和我们讨论。
