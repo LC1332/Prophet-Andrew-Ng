@@ -2,15 +2,31 @@
 
 这是李鲁鲁的学习笔记，原来是Sam Witteveen的笔记
 
-原视频地址
+项目地址 https://github.com/LC1332/Prophet-Andrew-Ng
 
-https://www.youtube.com/watch?v=J_0qvRt4LNk
+原视频地址 https://www.youtube.com/watch?v=J_0qvRt4LNk
 
 增加了李鲁鲁学习时候的吐槽
 
-上这个课程的原因是Andrew的课程没有去照顾langchain的使用。
+上这个课程的原因是Andrew的课程没有去照顾langchain的使用。而Sam的课看起来还挺好的，并且每节课都有colab
 
-这里我先让GPT老师对着这个视频进行总结，给我总结出了一些标题
+---
+
+## 初识LangChain
+
+第一次跑LangChain的代码是在实践 [Camel](https://github.com/LC1332/Chinese-Camel) 这个项目
+
+这个项目是使用了LangChain的Agent去写的，如果你点开去看我录的视频，你会发现这中间其实发生了一次Request Error
+
+但是被LangChain的询问接口自动重试了。然后在搭建 [Chat凉宫春日](https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/prophet-code/haruhiLangChain.ipynb)的时候，一开始单纯使用了openai.ChatCompletion接口，让同学们测发现挺卡的，还会因为OpenAI服务器的原因
+
+经常挂掉，后来换成LangChain的接口就好很多了。话说这个Chat凉宫春日我还在内测，稍后争取放到HuggingFace上面去，如果你是老二次元的话也可以私信我试一下。
+
+---
+
+## Sam老师的LangChain第一课
+
+这里我先让GPT老师对着Sam的视频进行总结，给我总结出了一些标题
 
 ---
 
@@ -311,3 +327,32 @@ Chain支持LLM->API->LLM->PAL->LLM的应用
 
 + Asyncronous Chain
 
+其实我看他第二节课的Notebook主要还是这些Chain的单独使用。例子里面包括了简单的LLMChain，SequentialChain和PALChain
+
+## 使用一个LLMChain做要点提取
+
+他这里还是先使用了GPT3的接口，没有去用turbo
+
+```python
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+
+llm = OpenAI(model_name='text-davinci-003', 
+             temperature=0, 
+             max_tokens = 256)
+
+article = '''Coinbase, the second-largest crypto exchange by trading volume, released its Q4 2022 earnings on Tuesday, giving shareholders and market players alike an updated look into its financials. In response to the report, the company's shares are down modestly in early after-hours trading.In the fourth quarter of 2022, Coinbase generated $605 million in total revenue, down sharply from $2.49 billion in the year-ago quarter. Coinbase's top line was not enough to cover its expenses: The company lost $557 million in the three-month period on a GAAP basis (net income) worth -$2.46 per share, and an adjusted EBITDA deficit of $124 million.Wall Street expected Coinbase to report $581.2 million in revenue and earnings per share of -$2.44 with adjusted EBITDA of -$201.8 million driven by 8.4 million monthly transaction users (MTUs), according to data provided by Yahoo Finance.Before its Q4 earnings were released, Coinbase's stock had risen 86% year-to-date. Even with that rally, the value of Coinbase when measured on a per-share basis is still down significantly from its 52-week high of $206.79.That Coinbase beat revenue expectations is notable in that it came with declines in trading volume; Coinbase historically generated the bulk of its revenues from trading fees, making Q4 2022 notable. Consumer trading volumes fell from $26 billion in the third quarter of last year to $20 billion in Q4, while institutional volumes across the same timeframe fell from $133 billion to $125 billion.The overall crypto market capitalization fell about 64%, or $1.5 trillion during 2022, which resulted in Coinbase's total trading volumes and transaction revenues to fall 50% and 66% year-over-year, respectively, the company reported.As you would expect with declines in trading volume, trading revenue at Coinbase fell in Q4 compared to the third quarter of last year, dipping from $365.9 million to $322.1 million. (TechCrunch is comparing Coinbase's Q4 2022 results to Q3 2022 instead of Q4 2021, as the latter comparison would be less useful given how much the crypto market has changed in the last year; we're all aware that overall crypto activity has fallen from the final months of 2021.)There were bits of good news in the Coinbase report. While Coinbase's trading revenues were less than exuberant, the company's other revenues posted gains. What Coinbase calls its "subscription and services revenue" rose from $210.5 million in Q3 2022 to $282.8 million in Q4 of the same year, a gain of just over 34% in a single quarter.And even as the crypto industry faced a number of catastrophic events, including the Terra/LUNA and FTX collapses to name a few, there was still growth in other areas. The monthly active developers in crypto have more than doubled since 2020 to over 20,000, while major brands like Starbucks, Nike and Adidas have dived into the space alongside social media platforms like Instagram and Reddit.With big players getting into crypto, industry players are hoping this move results in greater adoption both for product use cases and trading volumes. Although there was a lot of movement from traditional retail markets and Web 2.0 businesses, trading volume for both consumer and institutional users fell quarter-over-quarter for Coinbase.Looking forward, it'll be interesting to see if these pieces pick back up and trading interest reemerges in 2023, or if platforms like Coinbase will have to keep looking elsewhere for revenue (like its subscription service) if users continue to shy away from the market.
+'''
+
+fact_extraction_prompt = PromptTemplate(
+    input_variables=["text_input"],
+    template="Extract the key facts out of this text. Don't include opinions. Give each fact a number and keep them short sentences. :\n\n {text_input}"
+)
+
+fact_extraction_chain = LLMChain(llm=llm, prompt=fact_extraction_prompt)
+
+facts = fact_extraction_chain.run(article)
+
+print(facts)
+```
