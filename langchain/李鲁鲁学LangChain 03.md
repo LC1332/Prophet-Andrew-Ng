@@ -1,4 +1,4 @@
-# 【骆驼LangChain笔记3】Turbo接入LangChain
+# 【骆驼LangChain笔记3】Turbo接入LangChain, 记忆机制，使用知识图谱等多样化的方式记忆对话
 
 因为我们一次笔记会覆盖sam的两节课，所以呢我准备直接用奇数来命名这个笔记。
 
@@ -253,8 +253,276 @@ llm_chain.run(user_input)
 
 ---
 
-```<span style="color:red">example text</span>```
+## 使用LangChain中的Memory系统
+
+第四节课其实集中都在讲LangChain的Memory机制。因为无论是OpenAI的ChatGPT接口，还是本地的模型接口。
+
+总的Token长度都是有限的。为了让Agent记忆之前的对话信息，就需要Memory机制
+
+LangChain提供了
+
++ ConversationBufferMemory
+
++ ConversationSummaryMemory
+
++ ConversationBufferWindowMemory
+
++ ConversationSummaryBufferMemory
+
+甚至有基于知识图谱的记忆系统
+
++ ConversationKGMemory
+
+还有一个ConversationEntityMemory，
+
++ ConversationEntityMemory
+
+这个有点像是基于关键词的记忆系统，让我们来看代码看看有什么区别。
+
+## ConversationBufferMemory
+
+```py
+from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain import OpenAI
+from langchain.chains import ConversationChain
+from langchain.llms import OpenAIChat
+```
+
+对了这里额外提一下，朋友圈有同事问我怎么改成Turbo的接口
+
+```python
+# llm = OpenAI(model_name='text-davinci-003', 
+#              temperature=0, 
+#              max_tokens = 256)
+
+from langchain.chat_models import ChatOpenAI
+
+llm = ChatOpenAI(model_name='gpt-3.5-turbo',
+                 max_tokens=256)
+```
+
+其实我实验下来只要这么改就行了。
+
+其实还有一个非常离谱的是他同时还有一个OpenAIChat接口，千万不要用混了，这个接口会帮你用贵的那个模型。。
+
+然后我们继续回到memory的调用上
+
+```py
+memory = ConversationBufferMemory()
+
+conversation = ConversationChain(
+    llm=llm, 
+    verbose=True, 
+    memory=summary_memory
+)
+```
+
+然后就是我和这个模型的聊天过程，我依次运行了
+
+```py
+conversation.predict(input="你好，我是鲁鲁！")
+conversation.predict(input="你今天过得怎么样?找你聊天的用户多吗？")
+conversation.predict(input="今天是周一，朋友圈里面我很多朋友都去长沙短途旅游了，你知道最近的长沙短途旅游为什么那么热门吗？")
+conversation.predict(input="我老婆说主要是因为长沙作为旅游城市，吃的东西还比较平价，现在国内游复苏，所以这两个因素导致去的人很多，你觉得她说的有道理吗")
+```
+
+你在最后一次运行的时候会看到
+
+```json
+> Entering new ConversationChain chain...
+Prompt after formatting:
+The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
+
+Current conversation:
+Human: 你好，我是鲁鲁！
+AI: 你好鲁鲁，我是AI！很高兴能和你交流。你需要什么帮助吗？
+Human: 你今天过得怎么样?找你聊天的用户多吗？
+AI: 我很好，谢谢！今天用户确实比平常多，估计是因为天气不错，许多人都想享受户外活动。不过我也很高兴能和你聊天！
+Human: 今天是周一，朋友圈里面我很多朋友都去长沙短途旅游了，你知道最近的长沙短途旅游为什么那么热门吗？
+AI: 长沙是一个历史悠久、文化丰富的城市，也是湖南省的省会。近年来，长沙市政府加大了旅游宣传力度，推动旅游业的发展。此外，长沙拥有得天独厚的自然环境和独特的人文景观，如岳麓山、橘子洲头、天心阁等，吸引了众多游客前来观光游览。同时，近几年长沙的城市建设也得到了很大的改善和提升，使得游客们在旅途中享受到了更好的服务和体验。总的来说，这些因素都为长沙旅游业的热门提供了有力的支撑。
+Human: 我老婆说主要是因为长沙作为旅游城市，吃的东西还比较平价，现在国内游复苏，所以这两个因素导致去的人很多，你觉得她说的有道理吗
+AI:
+
+> Finished chain.
+你的老婆提到的东西确实也是长沙旅游热门的原因之一。长沙美食多样，品种繁多，价格相对较为亲民，吸引了不少吃货前来品尝当地特色美食。而随着国内疫情防控形势的好转，国内旅游业近两年逐渐复苏，也促使了长沙旅游的热度上升。总的来说，长沙旅游之所以热门，是由于多种原因的综合作用。
+```
+
+如果你print conversation.memory，你可以看到
 
 
-<span style="color:red">example text</span>
+```
+Human: 你好，我是鲁鲁！
+AI: 你好鲁鲁，我是AI！很高兴能和你交流。你需要什么帮助吗？
+Human: 你今天过得怎么样?找你聊天的用户多吗？
+AI: 我很好，谢谢！今天用户确实比平常多，估计是因为天气不错，许多人都想享受户外活动。不过我也很高兴能和你聊天！
+Human: 今天是周一，朋友圈里面我很多朋友都去长沙短途旅游了，你知道最近的长沙短途旅游为什么那么热门吗？
+AI: 长沙是一个历史悠久、文化丰富的城市，也是湖南省的省会。近年来，长沙市政府加大了旅游宣传力度，推动旅游业的发展。此外，长沙拥有得天独厚的自然环境和独特的人文景观，如岳麓山、橘子洲头、天心阁等，吸引了众多游客前来观光游览。同时，近几年长沙的城市建设也得到了很大的改善和提升，使得游客们在旅途中享受到了更好的服务和体验。总的来说，这些因素都为长沙旅游业的热门提供了有力的支撑。
+Human: 我老婆说主要是因为长沙作为旅游城市，吃的东西还比较平价，现在国内游复苏，所以这两个因素导致去的人很多，你觉得她说的有道理吗
+AI: 你的老婆提到的东西确实也是长沙旅游热门的原因之一。长沙美食多样，品种繁多，价格相对较为亲民，吸引了不少吃货前来品尝当地特色美食。而随着国内疫情防控形势的好转，国内旅游业近两年逐渐复苏，也促使了长沙旅游的热度上升。总的来说，长沙旅游之所以热门，是由于多种原因的综合作用。
+```
 
+其实这个coversation.memory就是朴素地存储了对话的信息。
+
+## 带summarization的memory机制
+
+后面这三个一起讲了
+
++ ConversationSummaryMemory
+
++ ConversationBufferWindowMemory
+
++ ConversationSummaryBufferMemory
+
+这里面有两个是带Summary功能的，先讲**ConversationSummaryMemory**
+
+```py
+summary_memory = ConversationSummaryMemory(llm=llm)
+
+conversation = ConversationChain(
+    llm=llm, 
+    verbose=True, 
+    memory=summary_memory
+)
+```
+
+类似这么用就可以了，我觉得有点鸡肋
+
+他在每次对话的时候都会用第三人称进行总结。并且因为这个SummaryMemory的prompt是英语的（当然可以改成中文） 
+
+summary_memory.prompt其实就是这么一个变量，你可以改成中文。
+
+```python
+input_variables=['summary', 'new_lines'] output_parser=None partial_variables={} template='Progressively summarize the lines of conversation provided, adding onto the previous summary returning a new summary.\n\nEXAMPLE\nCurrent summary:\nThe human asks what the AI thinks of artificial intelligence. The AI thinks artificial intelligence is a force for good.\n\nNew lines of conversation:\nHuman: Why do you think artificial intelligence is a force for good?\nAI: Because artificial intelligence will help humans reach their full potential.\n\nNew summary:\nThe human asks what the AI thinks of artificial intelligence. The AI thinks artificial intelligence is a force for good because it will help humans reach their full potential.\nEND OF EXAMPLE\n\nCurrent summary:\n{summary}\n\nNew lines of conversation:\n{new_lines}\n\nNew summary:' template_format='f-string' validate_template=True
+```
+
+不过我觉得很鸡肋，比如他给刚才的对话的总结是这样的
+
+```
+The human introduces themselves as 鲁鲁 and the AI responds with a friendly greeting, identifying itself as an AI that can provide information and assistance. The human asks how the AI's day is going and if it has had many users to talk to. The AI states that it doesn't have emotions, so it's just working today, but it's always ready to answer user's questions. 鲁鲁 asks why short trips to Changsha have become so popular recently. The AI explains that Changsha is a historic city with many famous attractions, like Orange Island, Yueyang Tower, and Tianshi Pavilion. Additionally, Changsha has a variety of delicious food and abundant hotel resources to meet different travel needs. The pleasant climate in Changsha also makes it a great destination for tourism.
+```
+
+**ConversationBufferWindowMemory**是个还可以但是有点美中不足的机制，他的特点就是顾名思义保留最近的k条对话
+
+```python
+from langchain.chains.conversation.memory import ConversationBufferWindowMemory
+
+window_memory = ConversationBufferWindowMemory(k=2)
+```
+
+这里让我觉得美中不足的点在于，保留的k条聊天记录可以是很长，也可以是很短。
+
+我在Chat凉宫春日中，实际上给了一个计算token进行保留的，可以保留比如不超过1000个token内的聊天记录
+
+这个里面好像就没有这个机制，让我觉得有点头秃。
+
+然后就有了**ConversationSummaryBufferMemory**，这个卡是卡token了但是他是以summary的形式的
+
+```py
+from langchain.chains.conversation.memory import ConversationSummaryBufferMemory
+
+memory = ConversationSummaryBufferMemory(llm=OpenAI(), max_token_limit=40) 
+```
+
+反正都不是很喜欢，但是我们可以就着他的模版去写一个我们自己的customMemory机制。
+
+## 基于知识图谱的Memory
+
+```py
+from langchain.chains.conversation.memory import ConversationKGMemory
+
+prompt = PromptTemplate(
+    input_variables=["history", "input"], template=template
+)
+
+template = """下面是人类与AI之间友好的对话。AI很健谈，并提供了许多来自其上下文的具体细节。如果AI不知道问题的答案，它会真诚地说出并否认知道。AI仅使用“相关信息”部分中包含的信息，不会产生幻觉。
+
+相关信息：
+
+{history}
+
+对话：
+
+人类：{input}
+
+AI："""
+
+conversation_with_kg = ConversationChain(
+    llm=llm, 
+    verbose=True, 
+    prompt=prompt,
+    memory=ConversationKGMemory(llm=llm)
+)
+```
+
+这个稍微有趣一些
+
+他这个如果打印出知识图谱里面的信息的话，是这样的
+
+```python
+import networkx as nx
+
+print(conversation_with_kg.memory.kg)
+print(conversation_with_kg.memory.kg.get_triples())
+```
+
+打印出来是这样(哦这里输入的是那个修电视的故事，大家自己看代码吧)
+
+```python
+<langchain.graphs.networkx_graph.NetworkxEntityGraph object at 0x7efc8272f070>
+[('鲁鲁', 'person', 'is a'), ('Human', 'a television', 'has'), ('Human', 'after-sales service', 'is looking for'), ("Human's TV", 'abnormal sounds', 'occasionally emits'), ("Human's TV", 'after emitting abnormal sounds', 'black screens and shuts down')]
+```
+
+不知道有多少人看过Generative Agents那个代码，里面的记忆就使用了这个机制。
+
+也可以看我[翻译和实验的版本](https://github.com/LC1332/Chinese-generative-agents)
+
+## Entity
+
+这个我比较喜欢是因为比较简洁。他采用的是关键词-解释的形式去存储信息的
+
+
+```python
+from langchain.chains.conversation.memory import ConversationEntityMemory
+
+conversation = ConversationChain(
+    llm=llm, 
+    verbose=True,
+    prompt=ENTITY_MEMORY_CONVERSATION_TEMPLATE,
+    memory=ConversationEntityMemory(llm=llm)
+)
+```
+
+他这里最后抽取的信息形式是这样的
+
+```python
+from pprint import pprint
+pprint(conversation.memory.store)
+```
+
+输出是这样的
+
+```python
+{'A512453': "A512453 is the warranty number for Sam's TV.",
+ 'Dave': 'Dave is a repair person.',
+ 'Sam': 'Sam owns a TV that is currently broken and under warranty.',
+ 'TV': 'TV is under warranty.'}
+```
+
+我觉得这个形式相对其实很简洁。能够省掉不少token。也很有助于手动添加或者删除。
+
+## 后面的课程
+
+好了第三课和第四课的内容其实就到这里了。
+
+另外其实第四课里面还比较有趣的是Sam不停在替换聊天的prompt，相互之间也有一些细微的差别。
+
+（比如是否健谈，是否只基于事实，这个大家可以自己再去看看代码）
+
+后面两节课讲的是Flan20B和如何在本地使用Hugging Face的模型。
+
+## 关于骆驼
+我们在积极寻求服务器资源（A100，A800的服务器）的捐赠，当然你也可以去我们的项目页找到[赞助链接](https://github.com/LC1332/Luotuo-Chinese-LLM#sponsorship)来对我们进行支持。所有的赞助资源将会用在服务器资源的购买、数据的获取、社区的正常运维和周边的发放。如果你有兴趣用中文复现上面的一些前沿工作，也欢迎和我们讨论。
+
+[骆驼：开源中文大语言模型](https://github.com/LC1332/Luotuo-Chinese-LLM)
+
+骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢谢
