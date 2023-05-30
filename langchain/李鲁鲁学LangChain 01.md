@@ -1,10 +1,10 @@
 # 【骆驼LangChain笔记】LangChain基础, LLMChain, Prompt模版, 数学问题自动转代码求解的PALChain
 
-这是李鲁鲁的学习笔记，原来是Sam Witteveen的笔记
+这是李鲁鲁的学习笔记，针对Sam Witteveen的LangChain系列的笔记
 
 项目地址 https://github.com/LC1332/Prophet-Andrew-Ng
 
-原视频地址 https://www.youtube.com/watch?v=J_0qvRt4LNk
+原视频地址 https://www.youtube.com/watch?v=J_0qvRt4LNk&list=PL8motc6AQftk1Bs42EW45kwYbyJ4jOdiZ
 
 增加了李鲁鲁学习时候的吐槽
 
@@ -626,4 +626,4 @@ Sam目前有26个视频，整体还是挺多的。考虑6月份都刷完吧。
 
 [骆驼：开源中文大语言模型](​github.com/LC1332/Luotuo-Chinese-LLM)
 
-骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢
+骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢谢
