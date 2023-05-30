@@ -17,6 +17,25 @@
 - [团队运维](#团队运维)
 
 
+<table>
+  <tr>
+    <td>
+      <p align="center">
+        <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/haruhi_suzumiya_bondage_rp.jpg" height="300">
+      </p>
+    </td>
+    <td>
+      <ul>
+        <li><a href="#Python后端">Python后端</a></li>
+        <li><a href="#前端">前端</a></li>
+        <li><a href="#更多角色设计">更多角色设计</a></li>
+        <li><a href="#日语翻译训练">(opt)日语翻译训练</a></li>
+        <li><a href="#团队运维">团队运维</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 
 ## Python后端
 
