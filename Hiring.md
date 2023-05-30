@@ -2,21 +2,6 @@
 
 暂时决定用Chat凉宫春日 来顺便做DataWhale的作业。需要下面几个职位的同学
 
-<p align="center">
-    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/haruhi_suzumiya_bondage_rp.jpg" height="300">
-</p>
-
-- [Python后端](#Python后端)
-
-- [前端](#前端)
-
-- [更多角色设计](#更多角色设计)
-
-- [(opt)日语翻译训练](#日语翻译训练)
-
-- [团队运维](#团队运维)
-
-
 <table>
   <tr>
     <td>
