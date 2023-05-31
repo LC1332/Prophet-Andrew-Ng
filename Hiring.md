@@ -1,4 +1,4 @@
-# Hiring 招人
+# Hiring 招人: 让世界变得更热闹的Chat凉宫春日
 
 暂时决定用Chat凉宫春日 来顺便做DataWhale的作业。需要下面几个职位的同学
 
@@ -6,24 +6,30 @@
   <tr>
     <td>
       <p align="center">
-        <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/haruhi_suzumiya_bondage_rp.jpg" height="300">
+        <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/haruhi_suzumiya_bondage_rp.jpg" height="400">
       </p>
     </td>
     <td>
       <ul>
         <li><a href="#Python后端">Python后端</a></li>
         <li><a href="#前端">前端</a></li>
-        <li><a href="#更多角色设计">更多角色设计</a></li>
-        <li><a href="#视觉算法工程师">视觉算法工程师</a></li>
+        <li><a href="#更多角色设计">(opt)更多角色设计</a></li>
+        <li><a href="#视觉算法工程师">(opt)视觉算法工程师</a></li>
         <li><a href="#日语翻译训练">(opt)日语翻译训练</a></li>
         <li><a href="#团队运维">团队运维</a></li>
+        <li><a href="#当前模型结果">联系方式</a></li>
+        <li><a href="#当前模型结果">当前模型结果</a></li>
       </ul>
     </td>
   </tr>
 </table>
 
+昨天DataWhale群里面的内测已经结束，比较费钱，如果你想体验单独和我说。
+
 
 ## Python后端
+
+目前后端任务较多，多个人也可以 需要说清楚每个人做了什么。
 
 当前任务: 将Haruhi实验性质的notebook代码转化为python代码
 
@@ -87,3 +93,5 @@
 我个人会有很多项目同时进行，不介意你同时属于其他队伍
 
 如果你已经属于原来队伍，如果你精力分配不过来，也可以和原来队长说一下退出原来队伍
+
+## 当前模型结果
