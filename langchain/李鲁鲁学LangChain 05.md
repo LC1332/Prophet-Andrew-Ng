@@ -73,7 +73,9 @@ conversation = ConversationChain(
 
 ---
 
-## 快速进入第五节课吧
+## 快速进入第六节课吧
+
+https://www.youtube.com/watch?v=Kn7SX2Mx_Jk&list=PL8motc6AQftk1Bs42EW45kwYbyJ4jOdiZ&index=6
 
 其实Hugging Face Hub的在线模型只能支持text2text或者text-generation
 
@@ -169,6 +171,8 @@ hf.embed_query('this is an embedding')
 + 7 PAL： 就是那个把数学应用题转化为程序然后求解的PALChain，
 
 + 8: 用Langchain搭建一个摘要系统。
+
+等我如果真的把我们的模型包括luotuo-bert, LuotuoQA-B和MiniLuotuo放上去再出对应的笔记吧
 
 ---
 
