@@ -18,7 +18,7 @@
         <li><a href="#日语翻译训练">(opt)日语翻译训练</a></li>
         <li><a href="#团队运维">团队运维</a></li>
         <li><a href="#当前模型结果">联系方式</a></li>
-        <li><a href="#当前模型结果">当前模型结果</a></li>
+        <li><a href="#当前进度表">当前进度表</a></li>
       </ul>
     </td>
   </tr>
@@ -29,34 +29,37 @@
 
 ## Python后端
 
+- [ ] 将text的embedding和字典做预存
+- [ ] 待鲁叔初步的图-文数据之后，做一个类，
+
+支持文本embedding抽取、预存、载入、给定文本出(图片、相似度)
+
+- [ ] 如果手快的话，再把这个出图片的整合到gradio里面去(新建一个后端任务)
+
+- [ ] 实现与本地前端的通信
+
+
+## Python后端（已经完成）
+
 目前后端任务较多，K个人也可以 需要说清楚每个人做了什么。
 
 当前任务: 将Haruhi实验性质的notebook代码转化为python代码
 
-+ 将notebook中的代码转化为一个run.py，支持命令行参数的接入，支持以下参数:
++ (Done by 闫晨曦) 将notebook中的代码转化为一个run.py，支持命令行参数的接入，支持以下参数:
 
-    + 台词Folder，记录台词
+    + (Done by 闫晨曦) 台词Folder，记录台词
 
-    + system prompt存成txt文件，支持切换
+    + (Done by 闫晨曦) system prompt存成txt文件，支持切换
 
-    + 支持设定max_len_story 和max_len_history
+    + (Done by 闫晨曦)支持设定max_len_story 和max_len_history
 
-    + 支持指定save_path
+    + (Done by 闫晨曦)支持指定save_path
 
     + 实现一个colab脚本，可以clone转化后的项目并运行，方便其他用户体验。
 
 人员要求：有良好的Python命名习惯，熟悉一个python代码args等的编写，
 
 最好用过gradio，最好写过内网socket后台。交你的github账号或者过往作业给我判断。
-
-
-## Python后端(K+1)
-
-任务: 将text-embedding的数据结构做预存，减少客户端启动时间。增加检查机制
-
-## Python后端(K+2)
-
-任务: 建立台词-图片的搜索系统，可以在haruhi说特定台词的时候显示图片，之后可以升级为情绪判断
 
 
 ---
@@ -219,3 +222,85 @@ Cherrypick了一些有趣的结果，如果你也想测请私下联系我。
 春日:「哦？那你有什么计划呢？我很期待看到你用PHP改变世界的方式。不过，我们也不能忘记SOS团的事情，毕竟我们还有很多未完成的任务。」
 ```
 
+## 当前进度表
+
+持续招人中
+
+https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/Hiring.md
+
+---
+
+基础的python后端
+
+- [x] 将Notebook移动到一个app.py的文件中 (doing by 闫晨曦)
+- [x] 确认app.py能够修改台词记录folder 这样可以存到本地或者colab启动的时候可以存到google drive
+- [x] system prompt存成txt( characters/haruhi/system_prompt.txt )，支持切换。
+- [x] 确认app.py能够正确调用haruhi的system prompt
+- [ ] 冷子昂测试app.py
+- [ ] 确认app.py能够启动gradio
+- [x] app.py 支持设定max_len_story 和max_len_history 默认为 1500, 1200
+- [ ] (opt) 前面都完成之后，项目可以转成public，方便从colab去拉取代码，建立一个colab脚本, 直接clone项目，调用app.py进行玩耍
+
+闫晨曦 is working on that
+
+
+---
+
+新的后端任务
+
+- [ ] 将text的embedding和字典做预存
+- [ ] 待鲁叔初步的图-文数据之后，做一个类，
+
+支持文本embedding抽取、预存、载入、给定文本出(图片、相似度)
+
+- [ ] 如果手快的话，再把这个出图片的整合到gradio里面去(新建一个后端任务)
+
+---
+
+带socket（或者其他本地与前端链接方式的后端）
+
+这里前端可以去用https://github.com/Voine/ChatWaifu_Mobile  也可以去用别的
+
+- [ ] 调研ChatWaifu的后端怎么和前端连接
+- [ ] 制作一个foo的后端，看看能不能接入
+- [ ] 待app.py有个基础版本后，修改为适合ChatWaifu的后端
+
+贾曜恺 is working on that
+
+
+---
+
+中文到日文的训练
+
+在hugging找一下有没有已经能用的中转日翻译 比如 ssmisya/zh-jp_translator K024/mt5-zh-ja-en-trimmed larryvrh/mt5-translation-ja_zh 
+
+日文数据 https://huggingface.co/datasets?language=language:zh,language:ja&sort=downloads
+
+- [x] 检查这个模型是不是直接能用(可以问鲁叔，要一些台词文件)
+- [x] 如果模型很能用，任务就结束了，可以考虑训别的东西（一般不会）
+
+（暂时选定这个模型）
+
+- [ ] 搜集台词数据、搜集hugging face上所有能用的日文翻译数据
+- [ ] 数据最好达到200k级别
+- [ ] 问鲁叔要一下沈junyi之前的训练代码
+- [ ] 训练中文转日文模型
+- [ ] 对接测试
+
+封小洋 is working on that
+
+---
+
+批量台词抽取
+
+- [ ] 等待鲁叔share数据
+
+---
+
+李鲁鲁的self driving
+
+- [ ] 构建项目页
+- [x] 招人
+- [ ] (working)去下载Haruhi的动画片视频，想办法先搞几张台词和图片的匹配
+- [ ] 一个增强的gradio系统，支持根据台词显示haruhi的图片
+- [x] 去二次元社区找更熟悉凉宫春日的同学众测
