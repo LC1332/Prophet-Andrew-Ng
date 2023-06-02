@@ -13,6 +13,7 @@
       <ul>
         <li><a href="#Python后端">Python后端</a></li>
         <li><a href="#前端">前端</a></li>
+        <li><a href="#语言模型训练"> 语言模型训练 </a></li>
         <li><a href="#更多角色设计">(opt)更多角色设计</a></li>
         <li><a href="#视觉算法工程师">(opt)视觉算法工程师</a></li>
         <li><a href="#日语翻译训练">(opt)日语翻译训练</a></li>
@@ -60,6 +61,16 @@
 人员要求：有良好的Python命名习惯，熟悉一个python代码args等的编写，
 
 最好用过gradio，最好写过内网socket后台。交你的github账号或者过往作业给我判断。
+
+## 语言模型训练
+
+我下周一之前会争取筹集万级别的训练语料（目标5万，至少1万）
+
+如果跑通了DataWhale的官方GLM的tuning教程，或者自己本来就会tuning GLM6B规模的网络
+
+欢迎来联系我们参与这个训练。
+
+需要自带卡(A100,A800) / 自己学会Paddle 或者自己带colab训练
 
 
 ---
