@@ -10,6 +10,8 @@
 
 + 模仿凉宫春日语气的《Chat凉宫春日》[关于Chat凉宫春日](#关于Chat凉宫春日)
 
+[Chat凉宫春日](https://github.com/LC1332/Chat-Haruhi-Suzumiya)项目已经被移动到[独立项目](https://github.com/LC1332/Chat-Haruhi-Suzumiya)中， 并将开始支持更多其他角色。
+
 你也可以把这个项目看成是李鲁鲁对于Prompt Engineering和LangChain的实践。
 
 <p align="center">
