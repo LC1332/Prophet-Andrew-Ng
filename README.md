@@ -81,6 +81,11 @@ Sam是个很不错的YouTuber，他的每个视频往往都有colab的notebook�
 ## 关于Chat凉宫春日
 
 
+
+[Chat凉宫春日](https://github.com/LC1332/Chat-Haruhi-Suzumiya)项目已经被移动到[独立项目](https://github.com/LC1332/Chat-Haruhi-Suzumiya)中， 并将开始支持更多其他角色。
+
+https://github.com/LC1332/Chat-Haruhi-Suzumiya
+
 ---
 
 ## 有趣的例子
