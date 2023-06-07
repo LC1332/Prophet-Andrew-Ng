@@ -1,4 +1,4 @@
-# 【骆驼LangChain笔记7】PALChain解答中学数学联赛一试， LangChain中的文本总结和复查, VisualGPT的langchain使用
+# 【骆驼LangChain笔记7】PALChain解答中学数学联赛一试， LangChain中的长文本总结和复查, VisualGPT的langchain使用
 
 因为最近额外的时间比较多都在[Chat凉宫春日](https://github.com/LC1332/Chat-Haruhi-Suzumiya) 这个项目上
 
@@ -170,11 +170,104 @@ def solution():
 https://reasonwithpal.com/
 
 
-## LangChain做文本总结
+## LangChain做长文本总结
 
+这里我其实几天前就把视频看了，但是代码一直拖到昨天才实践。
 
+他这里本来Sam用的文本是一个英文的，我给改成天龙八部中虚竹大战鸠摩智的片段了。
 
+### 文本切块
 
+因为GPT的输入是4096限制的，就算你使用claude也就是两倍，GPT4是32k，你总有用完的一天。
+
+对于一个超长文本来说，总是要把文本切块儿的。这节课给了一个切块函数的例子
+
+```python
+from langchain.text_splitter import CharacterTextSplitter
+
+text_splitter = CharacterTextSplitter(
+    chunk_size = 1600,
+    chunk_overlap  = 50)
+
+texts = text_splitter.split_text(demi_gods)
+```
+
+这里demi_gods是我提前读取的长段的天龙八部文本。他这里的意思是会把文本切成
+
+长度尽可能接近chunk_size，相互之间尽可能接近chunk_overlap的几个chunk
+
+这里我试图打印了一下
+
+```python
+for text in texts:
+  print(len(text))
+  print(text[:10])
+  print(text[-10:])
+```
+
+输出是这样的
+
+```
+1590
+突然外面一个清朗的声
+“大金刚拳”的秘要。
+1540
+鸠摩智不等铜鼎落下，
+又焉有第二条路好走？
+1483
+殿上诸般事故，虚竹一
+于他吐蕃国大有好处。
+1595
+只听他朗声说道：“小
+和尚想必由此而知。”
+1413
+他天生睿智，自少年时
+是般若掌的上乘功夫。
+1519
+韦陀掌是少林派的扎根
+的面门相距已逾一尺。
+1585
+鸠摩智早已发觉，虚竹
+困境，无不暗暗欢喜。
+1151
+神山上人自从鸠摩智一
+袭，简直不成体统。”
+```
+
+可以看到在结尾的时候，CharacterTextSplitter会尽可能截取标点符号作为结尾。开头也应该尽可能是这样的。我能想到应该可能是一个贪心或者动态规划的算法在中间起作用。
+
+### Map \& Reduce的总结策略
+
+最简单的方法，就是对每个chunk进行总结之后，再对总的总结进行总结，于是代码是这样的。在一开始写笔记的时候我不知道prompt怎么额外设置，我就用了暴力设置的方法
+
+```python
+from langchain.chains.summarize import load_summarize_chain
+
+chain = load_summarize_chain(llm, 
+                             chain_type="map_reduce")
+
+chain.llm_chain.prompt.template = """对下列文本编写一个简明的总结:\n\n\n"{text}"\n\n\n总结:"""
+
+chain.combine_document_chain.llm_chain.prompt.template = """对下列文本编写一个简明的总结:\n\n\n"{text}"\n\n\n总结:"""
+
+output_summary = chain.run(docs)
+```
+
+他给我输出是这样的
+
+```
+鸠摩智以超凡口才和精湛武功惊艳了少林寺的众僧。他展示了自己的绝世武功，让高僧们叹服。虚竹在少林寺遇到了种种怪事，展示了高超的轮指封穴技巧。鸠摩智与虚竹展开激烈的武术对决，虚竹使用逍遥派的武学技巧，而鸠 摩智使用火焰刀等危险技巧。最终虚竹以反击和抓住鸠摩智的手腕为契机，战胜了鸠摩智。
+```
+
+总感觉差那么一回事儿。。。
+
+### Stiffing的方法
+
+这个方法对于长文本是不适用的
+
+我们直接跳入下一个方法使用bullets形式
+
+### 使用自定义prompt将总结转化为bullet形式
 
 ## Chat凉宫春日
 
