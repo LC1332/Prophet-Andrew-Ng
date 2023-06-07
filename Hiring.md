@@ -6,6 +6,8 @@ Chat凉宫春日的团队决定参加**CAAI-BDSC2023社会计算创新大赛：�
 
 中的赛题二**赛题2：个性化的语言生成**，所以我们更新了一些jobs
 
+本项目已经在 https://github.com/LC1332/Chat-Haruhi-Suzumiya 上开放
+
 <table>
   <tr>
     <td>
