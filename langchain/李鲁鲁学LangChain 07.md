@@ -443,17 +443,95 @@ refine_prompt = PromptTemplate(
 
 ## Summarization Checker
 
+这个是我听sam的课之前不知道的功能，这个还挺有趣的。根据总结的bullet点，然后再让语言模型逐条check是不是正确
+
+（这是因为语言模型做这样的evaluate任务会比做生成任务更容易）
+
+做完之后根据check对的点，就可以做进一步的总结了
+
+
+我拿神雕侠侣杨过带郭襄过黑龙潭的片段试了一下，不过结果有点令我困惑
+
+```
+- Black Dragon Pool was once a large lake that has since become a swamp due to drying up and sedimentation.
+- Yang Guo and Guo Xiang went to Black Dragon Pool to catch the Nine-tailed Fox.
+- Within a few moments, Yang Guo and Guo Xiang arrived at the edge of the pool and saw a lot of dead wood and grass piled up at the bottom of the pool.
+- Yang Guo threw a tree branch into the pool and it sank slowly into the mud, disappearing without a trace.
+- Guo Xiang was amazed that such a light branch could sink so easily and wondered how they could stand on the mud.
+- Yang Guo suggested trying to use two six-foot-long tree branches to slide on top of the snow and mud and demonstrated his skill to Guo Xiang.
+- They both slid into the pool with the tree branches tied to their feet.
+- Guo Xiang noticed that the arrangement of the wood and grass was unusual and not natural.
+- Guo Xiang recognized the arrangement of the wood and grass as representing the five elements of yin and yang.
+- Guo Xiang learned about the five elements of yin and yang from books.
+- Yang Guo was surprised by Guo Xiang's knowledge and asked who taught her.
+- They discovered a small island in the middle of the pool under the pile of wood and grass.
+- They saw two small foxes with nine tails each, one running northeast and the other southwest.
+```
+
+然后他把中间好几条给打false了，可能小说不太适合用这个方法
+
+```
+1. True - Black Dragon Pool was once a large lake that has since become a swamp due to drying up and sedimentation.
+2. Undetermined - It is unclear who Yang Guo and Guo Xiang are and if they went to Black Dragon Pool to catch the Nine-tailed Fox. More context is needed.
+3. Undetermined - It is unclear how accurate this description of the pool's bottom is without further evidence.
+4. Undetermined - It is unclear how accurate this description of the branch sinking is without further evidence.
+5. Undetermined - It is unclear how accurate Guo Xiang's observation is without further evidence.
+6. False - This is a fictional story and should not be taken as a factual account.
+7. False - This is a fictional story and should not be taken as a factual account.
+8. False - This is a fictional story and should not be taken as a factual account.
+9. False - This is a fictional story and should not be taken as a factual account.
+10. False - This is a fictional story and should not be taken as a factual account.
+11. Undetermined - It is unclear how accurate this description of the discovery of the island is without further evidence.
+12. Undetermined - It is unclear how accurate this description of the foxes is without further evidence.
+```
+
+最后的输出是这样的
+
+
+```
+Black Dragon Pool was once a large lake that has since become a swamp due to drying up and sedimentation. It is unclear who Yang Guo and Guo Xiang are and if they went to Black Dragon Pool to catch the Nine-tailed Fox. More context is needed. It is also unclear how accurate the description of the pool's bottom is without further evidence. Similarly, it is unclear how accurate the description of the branch sinking and Guo Xiang's observation is without further evidence. However, it is known that this is a fictional story and should not be taken as a factual account. 
+
+As Yang Guo and Guo Xiang slide into the pool, they are surprised by the strange layout of branches and grasses. Guo Xiang recognizes the patterns as corresponding to the Five Elements of Yin and Yang, learned from her mother. As they investigate further, they discover a small island hidden among the debris. Suddenly, two small foxes with nine tails each appear from the grass and run in opposite directions.
+```
+
+其实这个还可以，但是这个是短文本的总结，不说明什么
+
+
+## VisualGPT中的langchain
+
+我本来想写这个，但是我想到第11课就是更正式的langchain中的agent介绍了
+
+所以这个部分其实可以跳过>_<（主要是已经写了1小时了 想去写代码了）
+
+我看看后面四节课是什么内容
+
+
+## 后面四节课
+
++ LangChain中的Agents类
+
++ 用LangChain比较不同的语言模型
+
++ LangChain中的Constitutional AI(类似内容审核)
+
++ Alpaca和LangChain的对接
+
+
 
 
 ## Chat凉宫春日
 
-对了，我最近在拿Chat凉宫春日交DataWhale举办的5月学习活动的作业
+对了，我最近在拿Chat凉宫春日交DataWhale举办的6月学习活动的作业
 
-我们有一个针对Chat凉宫春日这个项目 招人的计划在这里 [招人计划](https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/Hiring.md)
+项目已经在github公开并且正在继续开发中 https://github.com/LC1332/Chat-Haruhi-Suzumiya
 
-需要一些后端、前端和算法工程师，整个项目的ddl在6月6号和6月13号
+另外我们会去参与中科院心理所的一个特定人格对话生成的比赛，感觉还是有些意思的。
 
-如果你也正在参加DataWhale的课程或者这两天非常有空，可以联系我一起玩一下，做多做少都是缘，欢迎加入
+所以我们有一个针对Chat凉宫春日这个项目 招人的计划在这里 [招人计划](https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/Hiring.md)
+
+需要一些后端、前端和算法工程师，新的ddl延期到6月20日（中科院比赛）
+
+如果你也有兴趣参加并且这两周非常有空，可以联系我一起玩一下，做多做少都是缘，欢迎加入
 
 另外昨天Chat凉宫春日在群里开放测了一下，大家反馈还都不错。不过有点费钱，如果你想测可以私信我 我发您链接。
 
