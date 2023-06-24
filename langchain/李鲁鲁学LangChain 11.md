@@ -12,6 +12,7 @@
 - [Agent机制初探](#Agent机制初探)
 - [LangChain中Agent的初始化](#LangChain中Agent的初始化)
 - [什么是Reasoning_And_Acting](#什么是Reasoning_And_Acting)
+- [Zero_Shot_ReAct](#Zero_Shot_ReAct)
 
 
 ## 啰嗦的引言
@@ -191,4 +192,22 @@ Action: 完成[导演，编剧，演员]
 </p>
 
 
+另外Google Brain他们也在4个benchmark上做了实验，结果当然是显著提升
 
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchainReactResult.png">
+</p>
+
+话说能用搜索和不能用搜索也差太大了，AI也学会开卷考了嗨。你们之前哪个说ChatGPT考试相当于开卷考来着的，要不用这个策略重新试试看？
+
+当然我们这里注意到，在给出例子的情况下，这个策略会非常有效，那么我们前面设计的`zero-shot-react-description`是什么意思呢？
+
+## Zero_Shot_ReAct
+
+根据[LangChain的官方文档](https://www.pinecone.io/learn/langchain-agents/#:~:text=Zero%2Dshot%20means%20the%20agent,solely%20on%20the%20tool's%20description%20.) 
+
+```
+Zero-shot means the agent functions on the current action only — it has no memory. It uses the ReAct framework to decide which tool to use, based solely on the tool’s description.
+```
+
+哦，原来
