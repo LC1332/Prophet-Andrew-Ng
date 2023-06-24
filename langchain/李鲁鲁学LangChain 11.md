@@ -8,6 +8,11 @@
 
 去讨论OpenAI的0613-turbo模型如何官方实现了这个Agent的机制
 
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchain11LOGO.png">
+</p>
+
+
 - [啰嗦的引言](#啰嗦的引言)
 - [Agent机制初探](#Agent机制初探)
 - [LangChain中Agent的初始化](#LangChain中Agent的初始化)
