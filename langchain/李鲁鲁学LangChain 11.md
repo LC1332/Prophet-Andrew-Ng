@@ -566,6 +566,10 @@ Invoking: `get_price_change_percent` with `{'stockticker': 'GOOGL', 'days_ago': 
 Yes, Google's stock (GOOGL) has gone up by 23.44% over the past 90 days.
 ```
 
+其实这个里面我们看到还是运用了语言模型的知识的，语言模型知道谷歌的股票代号是GOOGL。当然如果不知道
+
+我们也可以进一步继承新的工具到工作流中，比如建议一个简单的查询表。
+
 另一个例子是这样
 
 ```python
