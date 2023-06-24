@@ -217,7 +217,123 @@ It uses the ReAct framework to decide which tool to use, based solely on the too
 + If you're using a Chat Model, try chat-zero-shot-react-description, aka. the MRKL agent for Chat Models.
 + If you're using a Chat Model and want to use memory, try chat-conversational-react-description, the Conversational agent.
 
-也就是如果你考虑用turbo模型的时候，你可以考虑去用chat-zero-shot-react-description。而如果你希望他对过往的记录有记忆，可以使用chat-conversational-react-description来进行。
+也就是如果你考虑用turbo模型的时候，你可以考虑去用chat-zero-shot-react-description。而如果你希望他对过往的记录有记忆，可以使用chat-conversational-react-description来进行。到这里我们可以看看在自定义Tools的时候，是怎么定义的
+
+```python
+from langchain.agents import Tool
+
+search = DuckDuckGoSearchTool()
+
+tools = [
+    Tool(
+        name = "search",
+        func=search.run,
+        description="useful for when you need to answer questions about current events. You should ask targeted questions"
+    )
+]
+```
+
+当然DuckDuckGoSearch在LangChain中本身就可以用DuckDuckGoSearchRun()来初始化，这里Sam也给出了另一个自定义Tools的例子
+
+```python
+def meaning_of_life(input=""):
+    return 'The meaning of life is 42 if rounded but is actually 42.17658'
+
+life_tool = Tool(
+    name='Meaning of Life',
+    func= meaning_of_life,
+    description="Useful for when you need to answer questions about the meaning of life. input should be MOL "
+)
+```
+
+也就是说，一个Tool需要有三个必要的属性。名字定义了这个Tool的名字，这样语言模型可以用Action: 名字[参数]的形式，来对你定义的Tool进行调用。
+
+func告诉了系统如果语言模型想要调用这个函数，应该使用哪个函数来调用。
+
+而description则会影响语言模型是否会调用这个对应的Tool。在定义完这个Tool之后，Sam用这两个工具组合搜索，形成了一个基础的agent
+
+```python
+from langchain.agents import initialize_agent
+
+tools = [search, random_tool, life_tool]
+
+# conversational agent memory
+memory = ConversationBufferWindowMemory(
+    memory_key='chat_history',
+    k=3,
+    return_messages=True
+)
+
+# create our agent
+conversational_agent = initialize_agent(
+    agent='chat-conversational-react-description',
+    tools=tools,
+    llm=turbo_llm,
+    verbose=True,
+    max_iterations=3,
+    early_stopping_method='generate',
+    memory=memory
+)
+```
+
+这里语言模型使用的是GPT3.5-turbo，对应的agent也换成了前面提到的变体chat-conversational-react。注意这仍然是一个zero-shot的使用。后面会提到zero-shot大致是怎么用的。我们来看看这个agent能不能正确使用这三个工具。
+
+首先测试下搜索
+
+```python
+conversational_agent("What time is it in London?")
+```
+
+LangChain的输出是这样的
+
+```js
+> Entering new AgentExecutor chain...
+{
+    "action": "DuckDuckGo Search",
+    "action_input": "time in london"
+}
+Observation: Current local time in United Kingdom - England - London. Get London's weather and area codes, time zone and DST. Explore London's sunrise and sunset, moonrise and moonset. Sunrise, sunset, day length and solar time for London. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. The current local time in London is 59 minutes ahead of apparent solar time. Current local time in London and DST dates in 2023. Local time--:--BST AM/PM 24 hours . London time change . Next time change is in 6 months and 4 days, set your clock back 1 hour. London summer time (DST) in 2023. Daylight saving time 2023 in London begins at 1:00 AM on Sunday, March 26 ... Sunrise, sunset, day length and solar time for London. Sunrise: 05:42AM. Sunset: 08:15PM. Day length: 14h 33m. Solar noon: 12:58PM. The current local time in London is 58 minutes ahead of apparent solar time. The graph above illustrates clock changes in London during 2023. London in GMT Time Zone. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.. The Difference between GMT and UTC. In practice, GMT and UTC share the same time on a clock, which can cause them to be interchanged or confused.
+Thought:{
+    "action": "Final Answer",
+    "action_input": "The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time."
+}
+
+> Finished chain.
+{'input': 'What time is it in London?',
+ 'chat_history': [],
+ 'output': 'The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.'}
+```
+
+看起来还基本可以用，然后再来测试一下随机数
+
+```python
+conversational_agent("Can you give me a random number?")
+```
+
+LangChain的返回是这样的
+
+```js
+> Entering new AgentExecutor chain...
+{
+    "action": "Random number",
+    "action_input": "random"
+}
+Observation: 4
+Thought:{
+    "action": "Final Answer",
+    "action_input": "The response to your last comment was a random number, which was 4."
+}
+
+> Finished chain.
+{'input': 'Can you give me a random number?',
+ 'chat_history': [HumanMessage(content='What time is it in London?', additional_kwargs={}),
+  AIMessage(content='The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.', additional_kwargs={})],
+ 'output': 'The response to your last comment was a random number, which was 4.'}
+ ```
+
+当然，到后面生命的意义就出现了问题了
+
+
 
 在这几节课里面，Sam解释了
 
