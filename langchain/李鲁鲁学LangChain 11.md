@@ -1,6 +1,6 @@
-# 【LangChain笔记11】如何打造属于自己的GPT4，利用LangChain和GPT最新模型构建工具组合助手
+# 【LangChain笔记11】打造属于自己的AutoGPT，利用LangChain和GPT最新模型构建工具组合助手
 
-我原来想的标题叫做**跨时代的Agent机制，Reason+Act实现原理, 支持函数调用的OpenAI0613模型**
+我原来想的标题叫做**跨时代的Agent机制，Reason+Act实现原理, 支持函数调用的OpenAI0613模型**，后来觉得起更大一点好像也很合理。
 
 今天这是一篇比较重要的笔记，会涉及LangChain中的Agent机制，
 
@@ -12,7 +12,7 @@
 
 对于这方面接触不深的同学来说，你完全可以把今天的内容理解成
 
-“如何打造属于自己的GPT4，利用LangChain的Agent和GPT最新模型构建工具组合助手”
+“打造属于自己的AutoGPT，利用LangChain的Agent和GPT最新模型构建工具组合助手”
 
 而且这么说也一点都没有高估这件事儿。首先我们之前已经提到LangChain里面有Tools这个概念
 
@@ -49,4 +49,31 @@ Sam在每个视频下面，都留有colab链接。大家也可以在读这个笔
 这个笔记实际上是对着四个视频和对应代码内容的重组和实验。
 
 ---
+
+## Agent机制初探
+
+我们先来感受一下Agent的能力，这是一个结合了两个工具serpapi搜索引擎和llm-math作为工具的agent，我们使用一句话进行调用
+
+```python
+agent.run("中国所有省级行政区，如果每个省都能和广东产出一样的GDP，那么中国一年的GDP是多少亿？")
+```
+
+Agent的输出是这样的
+
+
+<span class="white">&gt;Entering new chain...</span>
+<span class="green">I am not sure how to answer this question, but it involves calculating GDP.</span>
+<span class="green">Action: Calculator</span>
+<span class="green">Action Input: 34 provinces * Guangdong's 2019 GDP of 10.01 trillion yuan</span>
+<span class="yellow">Observation: Answer: 340340000000000</span>
+<span class="green">Thought:That's a huge number, let me convert it to billions.</span>
+<span class="green">Action: Calculator</span>
+<span class="green">Action Input: 340340000000000 / 1000</span>
+<span class="yellow">Observation: Answer: 340340000000.0</span>
+<span class="green">Thought:I now know the final answer</span>
+<span class="green">Final Answer: 340340000000.0 billion yuan</span>
+<span class="white">&gt;Finished chain.</span>
+<span class="green">340340000000.0 billion yuan</span>
+
+
 
