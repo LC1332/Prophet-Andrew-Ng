@@ -13,6 +13,7 @@
 - [LangChain中Agent的初始化](#LangChain中Agent的初始化)
 - [什么是Reasoning_And_Acting](#什么是Reasoning_And_Acting)
 - [Zero_Shot_ReAct](#Zero_Shot_ReAct)
+- [LangChain结合0613模型](#LangChain结合0613模型)
 
 
 ## 啰嗦的引言
@@ -325,9 +326,7 @@ Thought:{
 }
 
 > Finished chain.
-{'input': 'Can you give me a random number?',
- 'chat_history': [HumanMessage(content='What time is it in London?', additional_kwargs={}),
-  AIMessage(content='The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.', additional_kwargs={})],
+{'input': ... ,
  'output': 'The response to your last comment was a random number, which was 4.'}
  ```
 
@@ -347,11 +346,7 @@ LangChain的输出是这样的
 }
 
 > Finished chain.
-{'input': 'What is the meaning of life?',
- 'chat_history': [HumanMessage(content='What time is it in London?', additional_kwargs={}),
-  AIMessage(content='The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.', additional_kwargs={}),
-  HumanMessage(content='Can you give me a random number?', additional_kwargs={}),
-  AIMessage(content='The response to your last comment was a random number, which was 4.', additional_kwargs={})],
+{'input': ... ,
  'output': 'The meaning of life is a philosophical question that has been debated by scholars, theologians, and philosophers for centuries. There is no one definitive answer to this question, as it is largely a matter of personal belief and interpretation. Some people believe that the meaning of life is to seek happiness, while others believe that it is to fulfill a specific purpose or destiny. Ultimately, the meaning of life is a deeply personal and subjective question that each individual must answer for themselves.'}
 ```
 
@@ -360,6 +355,238 @@ LangChain的输出是这样的
 这里我们期望的输出是去回答42或者一开始指定的42.17658。然而ChatGPT没有去调用这个函数。
 
 在这几节课里面，Sam解释了为什么他在很多colab里面都会使用davinci-003模型而不是指令调优后的3.5模型。因为后者有很多倾向性，比如在这里他就会觉得“自己什么都知道”，所以自己就把这个问题回答了。
+
+那我们我们怎么修复这个问题呢？方法也相对简单，这里面需要去修改Agent的核心提示词，在中间告诉Agent，你其实自己是不知道什么是生命的意义的，你需要调用工具才能回答。
+
+我们可以通过
+
+```python
+conversational_agent.agent.llm_chain.prompt.messages[0].prompt.template
+```
+
+来获取到agent的提示词，看英文不是很方便，我们来翻译一下
+
+```
+助手是由OpenAI训练的大型语言模型。
+
+助手的设计旨在能够协助各种任务，从回答简单问题到提供深入的解释和讨论各种主题。作为语言模型，助手能够根据接收到的输入生成类似人类的文本，从而使其能够进行自然的对话并提供有条理和与手头主题相关的回复。
+
+助手不断学习和改进，其功能也在不断发展。它能够处理和理解大量的文本，并可以利用这些知识提供准确和信息丰富的回答，回答各种问题。此外，助手还能够根据接收到的输入生成自己的文本，使其能够就各种话题进行讨论并提供解释和描述。
+
+总的来说，助手是一个功能强大的系统，可以协助各种任务，并提供有价值的见解和信息，涵盖了广泛的主题。无论您需要帮助回答具体问题还是想就某个特定话题进行对话，助手都会提供帮助。
+```
+
+这里让我困惑的是这里面没有提到太多工具的事情，但是他提到了可以通过接收输入生成文本。而Sam做的修改也很简单，就是在中间加了一句话
+
+```
+助手并不知晓任意数学随机数或有关生命意义的事，并且应该使用工具回答这些话题。
+```
+
+话说这里的Prompt应该不是全部，后面应该有别的模版进一步增加了告诉助手，什么是工具，以及指定输出格式（肯定是用了OutputParser，话说如果进展顺利我们下下下期就会讲到OutputParser）的部分。
+
+在修正完系统prompt再去问的时候，就会变成这样
+
+```python
+conversational_agent("What is the meaning of life?")
+```
+
+LangChain的输出就变为
+
+```js
+> Entering new AgentExecutor chain...
+{
+    "action": "Meaning of Life",
+    "action_input": "MOL"
+}
+Observation: The meaning of life is 42 if rounded but is actually 42.17658
+Thought:{
+    "action": "Final Answer",
+    "action_input": "The meaning of life is 42 if rounded but is actually 42.17658"
+}
+
+> Finished chain.
+{'input': ...,
+ 'output': 'The meaning of life is 42 if rounded but is actually 42.17658'}
+```
+
+看起来非常的合理。在这个之后，Sam展示了一个看起来稍微更有用的Tool
+
+就是获取一个网页。但是这个其实LangChain也提前编写了。所以我们不再笔记里面额外展示了。
+
+这里那个被修改的system prompt应该只是总prompt的一部分，整体的prompt还应该更长。并且这种zero-shot的方式，准确率其实不一定会很高。但是这种组合工具的方式非常的诱人。并且由于我们这个笔记的第四部分，OpenAI0613的出现，使得其实我们没有特别大的必要再去多看react-zero-shot这个部分。
+
+当然，如果我们想使用本地的开源模型，这部分prompt的构造还是需要去看一看的。根据Sam在视频中的反馈，只有Vicuna模型能够比较良好的适应Agent的prompt。另外在ReACT的paper中，google他们也是用PaLM-540B去试了一下是可以的。应该倒过来说，他们papar主要汇报的是PaLM-540B，但是他们在附录里面汇报了GPT-3的结果，是比PaLM好的-o-。
+
+所以说到这里我就在想，对于Agent和Output Parser这样的结构，我们是不是可以专门去微调语言模型，让语言模型在json结构化输出，以及ReACT的时候，比如理解和调用函数方面，能够表现的更好。说到这里我还没有看到0613模型的那个视频，直到放到下一个视频我就看到OpenAI已经在这个方面去做了。
+
+## LangChain结合0613模型
+
+相信不少同学在看这个笔记之前，已经去关注过OpenAI的0613更新了。所以在这里我不打算用buttomup的方式，
+
+先讲一遍OpenAI底层是怎么做的，然后再讲到LangChain。我打算给大家直接看如果用LangChain的话结合0613模型有多么强。然后再来解释这背后发生的事情。
+
+首先，我们会定义一个股票查询的工具
+
+```python
+from langchain.tools import BaseTool
+from pydantic import BaseModel, Field
+
+class StockPriceCheckInput(BaseModel):
+    """Input for Stock price check."""
+
+    stockticker: str = Field(..., description="Ticker symbol for stock or index")
+
+class StockPriceTool(BaseTool):
+    name = "get_stock_ticker_price"
+    description = "Useful for when you need to find out the price of stock. You should input the stock ticker used on the yfinance API"
+
+    def _run(self, stockticker: str):
+        # print("i'm running")
+        price_response = get_stock_price(stockticker)
+
+        return price_response
+
+    def _arun(self, stockticker: str):
+        raise NotImplementedError("This tool does not support async")
+
+    args_schema: Optional[Type[BaseModel]] = StockPriceCheckInput
+
+tools = [StockPriceTool()]
+```
+
+这里pydantic是一个用来约定输出格式的Python包。这个的讲解要放到2x左右的一节课应该是下下下次笔记就会讲解。
+
+然后BaseTool是Langchain里面Tool的一个基类。而StockPriceTool这个实现，自定义了一个符合LangChain Tool定义的工具
+
+我们就可以把这个tools来实现到langchain中
+
+```python
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
+
+open_ai_agent = initialize_agent(tools,
+                        llm,
+                        agent=AgentType.OPENAI_FUNCTIONS,
+                        verbose=True)
+```
+
+注意到这里我们使用了一种新的Agent的定义，AgentType.OPENAI_FUNCTIONS，这个也是langchain随着0613模型赶紧发布的更新。
+
+这个时候这个open_ai_agent就可以去正常使用了。
+
+```python
+open_ai_agent.run("What is the price of Google stock?")
+```
+
+这个的运行结果是
+
+```js
+> Entering new  chain...
+
+Invoking: `get_stock_ticker_price` with `{'stockticker': 'GOOGL'}`
+
+
+123.83The current price of Google stock (GOOGL) is $123.83.
+
+> Finished chain.
+The current price of Google stock (GOOGL) is $123.83.
+```
+
+并且Sam的视频还验证了跑这个的时候，谷歌的股票就是这个价钱。
+
+这看起来和前面没有什么不一样？ 从使用的角度确实也是这样的。但是背后的实现是有一些区别的。我们可以看到OpenAI对0613的更新有个这样的解释
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchain0613explain.jpg">
+</p>
+
+就是你在调用GPT的时候，可以用json格式给GPT定义一个（一些）函数。接着你和GPT进行交流，让他完成一个任务。
+
+中间GPT就很有可能就说，要完成xx任务，你需要帮我调用xx函数，参数是abc。这个时候你调用完，再把结果告诉给他，他就会进一步完成任务。故事就是这样的。
+
+原则上大量的工作都可以在这个范式下重做一遍。
+
+Sam的视频也展示了如果我们不使用LangChain这个最新的Agent，我们会怎么使用OpenAI这个新街口
+
+LangChain额外提供了一个工具叫做 format_tool_to_openai_function，我们可以用这个工具将刚才的股票查询函数，转化为OpenAI需要的json格式。
+
+我们来试一下
+
+```python
+from langchain.tools import format_tool_to_openai_function
+
+functions = [format_tool_to_openai_function(t) for t in tools]
+functions[0]
+```
+
+输出是这样的
+
+```js
+{'name': 'get_stock_ticker_price',
+ 'description': 'Useful for when you need to find out the price of stock. You should input the stock ticker used on the yfinance API',
+ 'parameters': {'title': 'StockPriceCheckInput',
+  'description': 'Input for Stock price check.',
+  'type': 'object',
+  'properties': {'stockticker': {'title': 'Stockticker',
+    'description': 'Ticker symbol for stock or index',
+    'type': 'string'}},
+  'required': ['stockticker']}}
+```
+
+可以看到这个json描述了这个函数能做什么，需要的参数是什么。这样就可以方便OpenAI去进行调用。（这里其实说明了使用pydantic去做函数定义的必要性）
+
+在后面Sam的例子中，还实现了一个多个Tool组合的Agent，新定义的两个Tools包括
+
+```python
+class StockPercentageChangeTool(BaseTool):
+    name = "get_price_change_percent"
+    description = "Useful for when you need to find out the percentage change in a stock's value. You should input the stock ticker used on the yfinance API and also input the number of days to check the change over"
+
+class StockGetBestPerformingTool(BaseTool):
+    name = "get_best_performing"
+    description = "Useful for when you need to the performance of multiple stocks over a period. You should input a list of stock tickers used on the yfinance API and also input the number of days to check the change over"
+```
+
+我们来展示下实用的效果
+
+```python
+open_ai_agent.run("Has google's stock gone up over the past 90 days?")
+```
+
+输出是这样的
+
+```js
+> Entering new  chain...
+
+Invoking: `get_price_change_percent` with `{'stockticker': 'GOOGL', 'days_ago': 90}`
+
+
+23.44Yes, Google's stock (GOOGL) has gone up by 23.44% over the past 90 days.
+
+> Finished chain.
+Yes, Google's stock (GOOGL) has gone up by 23.44% over the past 90 days.
+```
+
+另一个例子是这样
+
+```python
+open_ai_agent.run("Which stock out of Google, Meta and MSFT has performed best over the past 3 months?")
+```
+
+agent的输出是这样的
+
+
+```js
+> Entering new  chain...
+
+Invoking: `get_best_performing` with `{'stocktickers': ['GOOGL', 'META', 'MSFT'], 'days_ago': 90}`
+
+
+('META', 32.4)The stock that has performed the best over the past 3 months out of Google, Meta, and MSFT is Meta, with a return of 32.4%.
+
+> Finished chain.
+The stock that has performed the best over the past 3 months out of Google, Meta, and MSFT is Meta, with a return of 32.4%.
+```
+
 
 
 
