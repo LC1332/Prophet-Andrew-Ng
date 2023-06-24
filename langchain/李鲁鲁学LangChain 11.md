@@ -207,7 +207,17 @@ Action: 完成[导演，编剧，演员]
 根据[LangChain的官方文档](https://www.pinecone.io/learn/langchain-agents/#:~:text=Zero%2Dshot%20means%20the%20agent,solely%20on%20the%20tool's%20description%20.) 
 
 ```
-Zero-shot means the agent functions on the current action only — it has no memory. It uses the ReAct framework to decide which tool to use, based solely on the tool’s description.
+Zero-shot means the agent functions on the current action only — it has no memory. 
+It uses the ReAct framework to decide which tool to use, based solely on the tool’s description.
 ```
 
-哦，原来
+哦，原来这个zero-shot-react是之前ReACT标准论文的一个弱化版本，即不使用例子，仅考虑Tools的描述。同时，这个东西有三个变体，分别是
+
++ If you're using a text LLM, first try zero-shot-react-description, aka. the MRKL agent for LLMs.
++ If you're using a Chat Model, try chat-zero-shot-react-description, aka. the MRKL agent for Chat Models.
++ If you're using a Chat Model and want to use memory, try chat-conversational-react-description, the Conversational agent.
+
+也就是如果你考虑用turbo模型的时候，你可以考虑去用chat-zero-shot-react-description。而如果你希望他对过往的记录有记忆，可以使用chat-conversational-react-description来进行。
+
+在这几节课里面，Sam解释了
+
