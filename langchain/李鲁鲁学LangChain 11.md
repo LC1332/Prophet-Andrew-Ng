@@ -14,6 +14,7 @@
 - [什么是Reasoning_And_Acting](#什么是Reasoning_And_Acting)
 - [Zero_Shot_ReAct](#Zero_Shot_ReAct)
 - [LangChain结合0613模型](#LangChain结合0613模型)
+- [一个完整的Agent](#一个完整的Agent)
 
 
 ## 啰嗦的引言
@@ -591,6 +592,64 @@ Invoking: `get_best_performing` with `{'stocktickers': ['GOOGL', 'META', 'MSFT']
 The stock that has performed the best over the past 3 months out of Google, Meta, and MSFT is Meta, with a return of 32.4%.
 ```
 
+这里我们可以看到这个东西的应用潜力是非常大的，我直观就能想到包括QA，斯坦福小镇等大量的工作都可以被重做。
+
+Sam的总结其实很经典。这个东西的优势其实挺多的。因为OpenAI在0613模型中相当于把函数调用内化了，
+
+这样就不用像ReAct策略那样，使用大量的例子去调用，就省下了非常多的token。当然缺点也是有一个
+
+就是你没办法把这个东西换成开源模型了。不过作为ReAct的发明人Google应该也会很快跟进这样一个模型吧。
+
+不知道国内的公司要多快才会反应上这些事情。
+
+当然我觉得后期还要探索能不能给上一两个shot来增强函数调用的准确性。
+
+## 一个完整的Agent
+
+一个完整的Agent需要什么，我觉得这里需要进一步加强的是记忆的部分。
+
+因为这个状态机看起来最主要的记忆是他操作时候中间的4096个token（好消息是32k好像也有这样一个function call的版本）
+
+但是这对于多媒体文件显然是不够的。所以需要一个额外的记忆机制
+
+当然这个应该也不难，毕竟在visualGPT的时候图片的操作都已经被人实现过了。
+
+我觉得这个东西马上就会带来GPT应用的爆发，我们基本可以拭目以待了。
+
+## 下一次的笔记
+
+下一次的笔记会包括这几个内容
+
++ 12 使用LangChain对多个LLM模型进行对比
++ 13 Constitutional AI
++ 14 在LangChain里使用Alpaca
++ 15 CSV和Execl with LangChain
+
+这里我比较关心的会是13和14。
+
+## 闲聊+1
+
+因为端午前做ChatHaruhi比较多，所以没有及时更新笔记。实际上Sam的LangChain视频截止6月24日我还差1个视频就可以看完了（目前一共32个）-o-
+
+不过代码我其实就跑到了大概20多。不过笔记截止到这个写完记录了14/32。回头争取在6月结束之前把LangChain的笔记都给写了吧。
+
+Andrew Ng的LangChain课程我也去看了，和Sam可以互相做一些补充。但是吴恩达的课他加起来也只有1个半小时，所以涵盖的内容很少，如果你想更深入的看，我推荐还是去刷Sam的笔记
+
+虽然大多数人可能连打开colab看一下的过程都不会有。。更不用说去跑代码了。
+
+这周我们还会更新之前心理所比赛 高-低开放性人格的一些内容，这个我们会挂一下arxiv，并且把数据放出来。
+
+相应的demo和[report](https://github.com/LC1332/Chat-Haruhi-Suzumiya/tree/main/characters/personality-data)已经在[ChatHaruhi](https://github.com/LC1332/Chat-Haruhi-Suzumiya)这个项目可见了。
+
+接下来准备带ChatHaruhi去WAIC做个Hackthon玩，顺便免费打工的团队成员相互见个面哈哈哈。
+
+我本来想假期重新装修一下骆驼的主页，因为我们逐渐意识到语言模型的整体应用不是单单靠一个语言模型，外部管线、数据以及应用的搭建的重要性和核心模型的训练根本就是五五开的。所以抱着这个理念想把骆驼的主页装修一下使得更符合这个主旨，等有空再说吧。
 
 
+## 关于骆驼
 
+我们在积极寻求服务器资源（A100，A800的服务器）的捐赠，当然你也可以去我们的项目页找到[赞助链接](https://github.com/LC1332/Luotuo-Chinese-LLM#sponsorship)来对我们进行支持。所有的赞助资源将会用在服务器资源的购买、数据的获取、社区的正常运维和周边的发放。如果你有兴趣用中文复现上面的一些前沿工作，也欢迎和我们讨论。
+
+[骆驼：开源中文大语言模型](https://github.com/LC1332/Luotuo-Chinese-LLM)
+
+骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢谢
