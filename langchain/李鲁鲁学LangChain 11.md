@@ -8,7 +8,15 @@
 
 去讨论OpenAI的0613-turbo模型如何官方实现了这个Agent的机制
 
----
+- [啰嗦的引言](#啰嗦的引言)
+- [Agent机制初探](#Agent机制初探)
+- [LangChain中Agent的初始化](#LangChain中Agent的初始化)
+- [什么是Reasoning_And_Acting](#什么是Reasoning_And_Acting)
+
+
+## 啰嗦的引言
+
+这份笔记默认是[github的版本](https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain%2011.md)，你去github看的话会看到所有的完整链接，知乎或者微信的版本可能链接是不全的。
 
 对于这方面接触不深的同学来说，你完全可以把今天的内容理解成
 
@@ -60,20 +68,69 @@ agent.run("中国所有省级行政区，如果每个省都能和广东产出一
 
 Agent的输出是这样的
 
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchaiAgentGDPresult.jpg">
+</p>
 
-<span class="white">&gt;Entering new chain...</span>
-<span class="green">I am not sure how to answer this question, but it involves calculating GDP.</span>
-<span class="green">Action: Calculator</span>
-<span class="green">Action Input: 34 provinces * Guangdong's 2019 GDP of 10.01 trillion yuan</span>
-<span class="yellow">Observation: Answer: 340340000000000</span>
-<span class="green">Thought:That's a huge number, let me convert it to billions.</span>
-<span class="green">Action: Calculator</span>
-<span class="green">Action Input: 340340000000000 / 1000</span>
-<span class="yellow">Observation: Answer: 340340000000.0</span>
-<span class="green">Thought:I now know the final answer</span>
-<span class="green">Final Answer: 340340000000.0 billion yuan</span>
-<span class="white">&gt;Finished chain.</span>
-<span class="green">340340000000.0 billion yuan</span>
+或者我们在加入`["serpapi", "llm-math","wikipedia","terminal"]`四个工具之后，如果我们去询问
 
+```python
+agent.run("钢之炼金术师中，最基本的法则是什么？")
+```
 
+Agent的输出是这样的
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchaiAgentAlchemist.jpg">
+</p>
+
+最终的回答是
+
+```
+The basic law in Fullmetal Alchemist is the law of equivalent exchange: "Humankind cannot gain anything without first giving something in return."
+```
+
+虽然说是英语的，但可以说是非常正确了。
+
+我们可以看到，我们可以把数学工具、wiki和搜索引擎这些都集成到Agent中，这样语言模型就可以获得大大超越本来ChatGPT的能力。
+
+在这里我要加一个吐槽。很多非从业者总觉得ChatGPT不会数学，或者ChatGPT回答自己某个方向的专业问题，结果发现是错的。因为这些原因就觉得ChatGPT在短期不会有很大的应用发展。这种看法在我看来是肤浅的。尽管在测评大语言模型综合能力的时候，数学测评或者某些方向的专业测评，可以从一些角度上去评估大语言模型的部分能力。但是在实际应用的时候，语言模型完全可以通过这些方法来集成调用不同的工具，来克服数学或者逻辑上的一些弱点，甚至在短期（指的是你看完这个笔记之后），就可以立刻通过API方式连接上专业知识库，来覆盖这部分的短板。所以靠ChatGPT在问答中无法解决专业问题或者无法解特定难度的数学，就去推断语言模型的应用能力有限，是一种肤浅的推断。
+
+## LangChain中Agent的初始化
+
+让我们绕回我们的笔记，前面我们直接给出了call Agent的部分。这里我们来展示一下初始化这么一个agent有多么简单，你差不多要做的就是这样
+
+```python
+from langchain.agents import load_tools
+from langchain.agents import initialize_agent
+from langchain.chat_models import ChatOpenAI
+
+llm = ChatOpenAI(model_name='gpt-3.5-turbo')
+tools = load_tools(["serpapi", "llm-math"], llm=llm)
+
+agent = initialize_agent(tools,
+                         llm,
+                         agent="zero-shot-react-description",
+                         verbose=True)
+```
+
+这样就初始化完成了一个agent。这个agent中我们引入了两个工具 一个是serpapi，实际上这个就是谷歌搜索的API，对于免费用户来说，一天好像有几千次可以的调用。我看后面Sam用duckduckGo来做搜索也比较多。另一个工具是llm-math，顾名思义就是结合语言模型去做数学的。
+
+在这两个工具的结合下，语言模型构成的智能体就结合了搜索引擎和数学的能力。
+
+前面提到的第二个例子里面还额外使用了Terminal和wiki百科。原则上你也可以授权这东西对你的文档进行管理，应该都是有办法实现的。
+
+所有LangChain默认支持的Tools在这个网页是可以看到的。
+
+https://python.langchain.com/docs/modules/agents/tools/integrations/apify
+
+包括了DuckDuck搜索、文件管理、知识图谱、wolframalpha、hugging face调用等非常多功能
+
+甚至还有一个叫什么Human as a tool的。另外显然也支持自己的函数定义进去。
+
+## 什么是Reasoning_And_Acting
+
+这个使用简单到不可思议，
+
+ReAct: Synergizing Reasoning and Acting in Language Models
 
