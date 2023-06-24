@@ -130,7 +130,65 @@ https://python.langchain.com/docs/modules/agents/tools/integrations/apify
 
 ## 什么是Reasoning_And_Acting
 
-这个使用简单到不可思议，
+这个使用简单到不可思议，这意味着我只要在前面提到的页面随便选取一些工具，就可以用GPT来组成一个智能体，
 
-ReAct: Synergizing Reasoning and Acting in Language Models
+这个智能体会根据你的需求来组合你之前注册的工具。在我第一次看到这些例子的时候我其实挺震惊的。
+
+这背后的技术实际上来自于这篇paper， ReAct: Synergizing Reasoning and Acting in Language Models。这篇论文的作者主要都来自于Google Brain。
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/agentDiagram.png">
+</p>
+
+看他的图还是有一点抽象的。本质上ReAct是Reasoning和Acting两个词的组合。前者其实来自于CoT，类似于让GPT做事情的时候总是要“让我想一想”，然后把操作步骤先给说清楚。Acting是让语言模型去调度外部API的过程。
+
+这里我们不如直接去看例子，Sam在21课这里给出了4个人工的例子，我们这里放出两个
+
+```
+Question: 东科罗拉多造山运动扩展到的区域的海拔高度范围是多少？
+Thought: 我需要搜索科罗拉多造山运动，找到东部区域，然后找到该区域的海拔高度范围。
+Action: Search[科罗拉多造山运动]
+Observation: 科罗拉多造山运动是科罗拉多州及周边地区的一次山脉建造活动（造山运动）。
+Thought: 没有提到东部区域。我需要查找东部区域。
+Action: Lookup[东部区域]
+Observation: （结果 1/1）东部区域扩展到高原地带，被称为中央平原造山运动。
+Thought: 东科罗拉多造山运动扩展到了高原地带。因此，需要搜索高原并找到它的海拔高度范围。
+Action: Search[高原]
+Observation: 高原是指两个不同的地区之一。
+Thought: 我需要搜索“高原（美国）”。
+Action: Search[高原（美国）]
+Observation: 高原是大平原的一个分区。从东向西，高原的海拔高度从约1,800英尺上升到约7,000英尺（550米至2,130米）。[3]
+Thought: 高原的海拔高度从约1,800英尺上升到约7,000英尺，因此答案是1,800到7,000英尺。
+Action: Finish[1,800到7,000英尺]
+```
+
+另一个是
+
+```
+Question: Nicholas Ray和Elia Kazan有什么共同的职业？
+Thought: 我需要搜索Nicholas Ray和Elia Kazan，找到他们的职业，然后找到他们共同的职业。
+Action: Search[Nicholas Ray]
+Observation: Nicholas Ray（1911年8月7日-1979年6月16日）是一位美国电影导演，编剧和演员，以1955年的电影《无因的反叛》而闻名。
+Thought: Nicholas Ray的职业是导演，编剧和演员。我需要接下来搜索Elia Kazan并找到他的职业。
+Action: Search[Elia Kazan]
+Observation: Elia Kazan是一位美国电影和戏剧导演，制片人，编剧和演员。
+Thought: Elia Kazan的职业是导演，制片人，编剧和演员。因此，Nicholas Ray和Elia Kazan共同的职业是导演，编剧和演员。
+Action: 完成[导演，编剧，演员]
+```
+
+看到这里我们其实有一些感觉了。其实就是让语言模型去习惯Throught-Action-Observation这样一个循环。并且在Action的步骤，可以去使用Action:函数名[参数]的形式，对外部的API进行调用。
+
+并且在这里其实，调用之后会把返回的结果作为Observation，语言模型会进一步观察Observation中的结果，总结自己看到了什么，并且在Thought步骤决定自己后面一步的行动。明白了这个之后我们再看论文中的例子就会觉得很顺利。作者在主页上每个benchmark放了一个例子，这个是HotpotQA的例子
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchainHotpotqa.png">
+</p>
+
+这是一个Agent玩文字游戏的benchmark的例子
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchainAlfworld.png">
+</p>
+
+
 
