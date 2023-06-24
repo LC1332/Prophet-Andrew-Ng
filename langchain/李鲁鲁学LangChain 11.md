@@ -1,4 +1,4 @@
-# 【LangChain笔记11】打造属于自己的AutoGPT，利用LangChain和GPT最新模型构建工具组合助手
+# 【LangChain笔记11】打造属于自己的AutoGPT，利用LangChain和GPT最新0613构建工具组合助手
 
 我原来想的标题叫做**跨时代的Agent机制，Reason+Act实现原理, 支持函数调用的OpenAI0613模型**，后来觉得起更大一点好像也很合理。
 
@@ -333,7 +333,33 @@ Thought:{
 
 当然，到后面生命的意义就出现了问题了
 
+```python
+conversational_agent("What is the meaning of life?")
+```
+
+LangChain的输出是这样的
+
+```js
+> Entering new AgentExecutor chain...
+{
+    "action": "Final Answer",
+    "action_input": "The meaning of life is a philosophical question that has been debated by scholars, theologians, and philosophers for centuries. There is no one definitive answer to this question, as it is largely a matter of personal belief and interpretation. Some people believe that the meaning of life is to seek happiness, while others believe that it is to fulfill a specific purpose or destiny. Ultimately, the meaning of life is a deeply personal and subjective question that each individual must answer for themselves."
+}
+
+> Finished chain.
+{'input': 'What is the meaning of life?',
+ 'chat_history': [HumanMessage(content='What time is it in London?', additional_kwargs={}),
+  AIMessage(content='The current local time in London is 59 minutes ahead of apparent solar time. Sunrise: 05:52AM. Sunset: 08:06PM. Day length: 14h 14m. Solar noon: 12:59PM. London uses Greenwich Mean Time (GMT) during standard time and British Summer Time (BST) during Daylight Saving Time (DST), or summer time.', additional_kwargs={}),
+  HumanMessage(content='Can you give me a random number?', additional_kwargs={}),
+  AIMessage(content='The response to your last comment was a random number, which was 4.', additional_kwargs={})],
+ 'output': 'The meaning of life is a philosophical question that has been debated by scholars, theologians, and philosophers for centuries. There is no one definitive answer to this question, as it is largely a matter of personal belief and interpretation. Some people believe that the meaning of life is to seek happiness, while others believe that it is to fulfill a specific purpose or destiny. Ultimately, the meaning of life is a deeply personal and subjective question that each individual must answer for themselves.'}
+```
+
+可以看到在这里其实Agent没有去调用meaning_of_life函数，而是自己对生命的意义进行了回答
+
+这里我们期望的输出是去回答42或者一开始指定的42.17658。然而ChatGPT没有去调用这个函数。
+
+在这几节课里面，Sam解释了为什么他在很多colab里面都会使用davinci-003模型而不是指令调优后的3.5模型。因为后者有很多倾向性，比如在这里他就会觉得“自己什么都知道”，所以自己就把这个问题回答了。
 
 
-在这几节课里面，Sam解释了
 
