@@ -206,11 +206,100 @@ Output:
     <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchainKorLudingji.png">
 </p>
 
+好吧，结果就是这样的。对于这个结果我的个人感受是这样的
 
++ 相比于从TV字幕里面去提取，这个方法的效率太高了，一晚上就可以得到主角近万条对话。即使有一些噪音，效率也快乐很多
+
++ 有一些人物相互是重复的，比如沐剑屏和小郡主是一个人（当然模型从文本片段上肯定看不出来，加起来有224次了，仅次于阿珂）同样重复的还有
+
+```python
+replace_map['公主'] = '建宁公主'
+replace_map['小玄子'] = '康熙'
+replace_map['苏荃'] = '洪夫人'
+replace_map['九难'] = '白衣尼'
+replace_map['沐剑屏'] = '小郡主'
+```
+
++ 当然主动行为的出现次数肯定是 康熙 > 双儿 > 海公公，所以除了大老婆双儿之外，康熙和海公哦那个才是真爱（误）
+
+曾柔从统计上直接消失了，我去看原文本，发现曾柔整个小说文本中出现了70几次，大概都是侧写，有点惨。
+
++ action不一定是独白和对话，这个还需要人工check，不过工作量不大
+
+```python
+action_for_dialogue = ['对话', '对句', '骂道', '惨呼', '惊叫', '大叫', '对骂', '叫道',  '叫声', '插口', '怒骂','对方怡说']
+```
+
+这个代码包括那个炫酷的plotly可视化，我放在 [这个脚本](https://github.com/LC1332/Chat-Haruhi-Suzumiya/blob/main/notebook/novel_dialogue_analysis.ipynb)
+
+
+## 从抽取后的数据中得到段落型对话
+
+因为我们是把文档切片之后逐段抽取的。我们希望把这个很长的json转化为最终我们chat凉宫春日架构能够使用的记忆库文本，
+
+所以我大致实现了一个这样的状态机：
+
++ 先找到要抽的角色的对话的一句话
+
++ 向前寻找一个主要角色的话，用来导引这句话
+
++ 在token数量允许的前提下增加对话
+
++ 如果角色数过多，或者token过多，则退出，切成一个chunk
+
+结果差不多是这样的，看起来还是够用的
+
+<p align="center">
+    <img src="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/figures/langchainKorResult.png">
+</p>
 
 
 ---
 
 ## Kor的更多特征
 
-https://eyurtsev.github.io/kor/tutorial.html
+你可以到[这个网站](https://eyurtsev.github.io/kor/tutorial.html)
+
+去看更多的Kor的特性，
+
++ 比如他还支持Nest，我觉得不是很好用。我更愿意把所有attribute写开。
+
++ 还有Pydantic的支持，可以让你的json格式更严格，比如引入一个validator
+
+## 后续
+
+这个Kor我还会持续使用下去，今天可能抽取一下天龙八部，因为之前天龙八部的几个主角我们也有小伙伴希望做一下ChatBot
+
+（虽然我自己不是很想和乔峰聊天）
+
+哈利波特我抽取了Dumbledore, Harry, Hermione, Luna, Malfoy, McGonagall和Snape这些角色
+
+回头打算试一下把这些语料放到ChatBot里面看看效果。
+
+另外在Chat凉宫春日这个项目之外，我还打算去详细抽取金庸的武功和技能描述，因为那些打斗场面的描述还是挺有趣的，放到游戏里应该会不错。
+
+今天的笔记就到这里。
+
+
+笔记实际可以在[骆驼先知](https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/langchain/%E6%9D%8E%E9%B2%81%E9%B2%81%E5%AD%A6LangChain25.md)的页面直接看到
+
+知乎的版本是从md顺便自动转化的。langchain的笔记看起来还有4-5篇，写完之后可以再出个目录总结篇。
+
+发现带娃一周出差一周回来已经要8月了。。。
+
+今天先写Kor是因为正好 
+
+[Chat凉宫春日](https://github.com/LC1332/Chat-Haruhi-Suzumiya)
+
+这个项目要用掉。
+
+## 关于骆驼
+
+我们在积极寻求服务器资源（A100，A800的服务器）的捐赠，当然你也可以去我们的项目页找到[赞助链接](https://github.com/LC1332/Luotuo-Chinese-LLM#sponsorship)来对我们进行支持。所有的赞助资源将会用在服务器资源的购买、数据的获取、社区的正常运维和周边的发放。如果你有兴趣用中文复现上面的一些前沿工作，也欢迎和我们讨论。
+
+[骆驼：开源中文大语言模型](https://github.com/LC1332/Luotuo-Chinese-LLM)
+
+骆驼是我们的个人作业项目。如果你感觉这个文章对你有帮助，也欢迎到我们的骆驼项目主页为我们点上star。如果您没有github账号，也可以在知乎直接点赞。谢谢
+
+
+
