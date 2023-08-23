@@ -167,6 +167,13 @@ GPT Engineer社区正在构建一个**开放平台，供开发人员调试和构
 26571 [streamlit/streamlit](https://github.com/streamlit/streamlit)
 
 
+Welcome to Streamlit 👋
+A faster way to build and share data apps.
+
+Streamlit lets you turn data scripts into shareable web apps in minutes, not weeks. It’s all Python, open-source, and free! And once you’ve created an app you can use our Community Cloud platform to deploy, manage, and share your app.
+
+这个其实挺好的，输入一段代码 转成web
+
 ---
 
 25819 [reworkd/AgentGPT](https://github.com/reworkd/AgentGPT)
@@ -303,11 +310,24 @@ LlamaIndex的创新点在于它提供了一个专门针对LLM应用程序的数�
 
 17580 [mindsdb/mindsdb](https://github.com/mindsdb/mindsdb)
 
+MindsDB's AI Virtual Database empowers developers to connect any AI/ML model to any datasource. This includes relational and non-relational databases, data warehouses and SaaS applications. Tweet
+
+MindsDB offers three primary benefits to its users.
+
+Creating and managing AI models (LLM based Semantic Search and QnA, TimeSeries Forecasting, Anomaly Detection, Classification, Recommenders, etc) through an “enhanced SQL” abstraction.
+Automate training and finetuning AI models from data contained in any of the 130+ datasources we support.
+Hook AI models to run automatically as new data is observed and plug the output into any of our integrations
+
 
 ---
 
 16003 [cube-js/cube](https://github.com/cube-js/cube)
 
+Cube is the semantic layer for building data applications. It helps data engineers and application developers access data from modern data stores, organize it into consistent definitions, and deliver it to every application.
+
+Learn more about connecting Cube to data sources and analytics & visualization tools.
+
+Cube was designed to work with all SQL-enabled data sources, including cloud data warehouses like Snowflake or Google BigQuery, query engines like Presto or Amazon Athena, and application databases like Postgres. Cube has a built-in relational caching engine to provide sub-second latency and high concurrency for API requests.
 
 ---
 
@@ -331,10 +351,21 @@ LlamaIndex的创新点在于它提供了一个专门针对LLM应用程序的数�
 
 15027 [mlflow/mlflow](https://github.com/mlflow/mlflow)
 
+MLflow: A Machine Learning Lifecycle Platform
+MLflow is a platform to streamline machine learning development, including tracking experiments, packaging code into reproducible runs, and sharing and deploying models. MLflow offers a set of lightweight APIs that can be used with any existing machine learning application or library (TensorFlow, PyTorch, XGBoost, etc), wherever you currently run ML code (e.g. in notebooks, standalone applications or the cloud). MLflow's current components are
+
 
 ---
 
 14024 [chatchat-space/Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat)
+
+LangChain-Chatchat (原 Langchain-ChatGLM): 基于 Langchain 与 ChatGLM 等大语言模型的本地知识库问答应用实现。
+
+
+🤖️ 一种利用 langchain 思想实现的基于本地知识库的问答应用，目标期望建立一套对中文场景与开源模型支持友好、可离线运行的知识库问答解决方案。
+
+💡 受 GanymedeNil 的项目 document.ai 和 AlexZhangji 创建的 ChatGLM-6B Pull Request 启发，建立了全流程可使用开源模型实现的本地知识库问答应用。本项目的最新版本中通过使用 FastChat 接入 Vicuna, Alpaca, LLaMA, Koala, RWKV 等模型，依托于 langchain 框架支持通过基于 FastAPI 提供的 API 调用服务，或使用基于 Streamlit 的 WebUI 进行操作。
+
 
 
 ---
@@ -591,6 +622,12 @@ Dify创建的应用包括：
 ---
 
 6950 [PipedreamHQ/pipedream](https://github.com/PipedreamHQ/pipedream)
+
+这个是做页面插件的呀 很强
+
+Pipedream is an integration platform for developers.
+
+Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. The platform has over 1,000 fully-integrated applications, so you can use pre-built components to quickly send messages to Slack, add a new row to Google Sheets, and more. You can also run any Node.js, Python, Golang, or Bash code when you need custom logic. Pipedream has demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request (please email support@pipedream.com).
 
 
 ---
