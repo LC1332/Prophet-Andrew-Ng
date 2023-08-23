@@ -1108,6 +1108,24 @@ Voyager使用OpenAI的GPT-4作为语言模型。在使用Voyager之前，您需�
 
 3480 [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher)
 
+GPT版本的读博模拟器哈哈哈哈
+
+
+🔎 GPT Researcher
+Official Website Discord Follow GitHub Repo stars Twitter Follow
+
+GPT Researcher is an autonomous agent designed for comprehensive online research on a variety of tasks.
+
+The agent can produce detailed, factual and unbiased research reports, with customization options for focusing on relevant resources, outlines, and lessons. Inspired by AutoGPT and the recent Plan-and-Solve paper, GPT Researcher addresses issues of speed and determinism, offering a more stable performance and increased speed through parallelized agent work, as opposed to synchronous operations.
+
+Our mission is to empower individuals and organizations with accurate, unbiased, and factual information by leveraging the power of AI.
+
+Why GPT Researcher?
+To form objective conclusions for manual research tasks can take time, sometimes weeks to find the right resources and information.
+Current LLMs are trained on past and outdated information, with heavy risks of hallucinations, making them almost irrelevant for research tasks.
+Solutions that enable web search (such as ChatGPT + Web Plugin), only consider limited resources that in some cases result in superficial conclusions or biased answers.
+Using only a selection of resources can create bias in determining the right conclusions for research questions or tasks.
+
 
 ---
 
@@ -1177,6 +1195,7 @@ Voyager使用OpenAI的GPT-4作为语言模型。在使用Voyager之前，您需�
 
 3335 [RayVentura/ShortGPT](https://github.com/RayVentura/ShortGPT)
 
+自动做短视频！
 
 ---
 
@@ -1200,6 +1219,12 @@ Voyager使用OpenAI的GPT-4作为语言模型。在使用Voyager之前，您需�
 ---
 
 3270 [langchain-ai/chat-langchain](https://github.com/langchain-ai/chat-langchain)
+
+ChatLangChain
+This repo is an implementation of a locally hosted chatbot specifically focused on question answering over the LangChain documentation. Built with LangChain and FastAPI.
+
+The app leverages LangChain's streaming support and async API to update the page in real time for multiple users.
+
 
 
 ---
@@ -2735,6 +2760,11 @@ https://blog.langchain.dev/auto-eval-of-question-answering-tasks/
 
 692 [kreneskyp/ix](https://github.com/kreneskyp/ix)
 
+Ix is an experimental platform for designing and deploying semi-autonomous LLM agents. It provides a scalable and responsive solution for delegating tasks to AI powered agents. The platform is designed to be extensible, allowing developers to create custom agents and chains to perform a wide variety of tasks.
+The backend is designed to support multiple agents running in parallel and communicating with each other. Each agent may be customized and may utilize parallel processes to complete tasks.
+
+Ix uses GPT-4 by default, but agents may be configured to use any model supported by LangChain.
+
 
 ---
 
@@ -3292,7 +3322,7 @@ source $(poetry env info --path)/bin/activate
 ```bash
 poetry run source $(poetry env info --path)/bin/activate
 ```
-```
+
 
 这个GitHub仓库的功能是提供一个名为"Tutor-GPT"的应用程序，它是一个基于LangChain LLM的学习伴侣。它根据用户的学习需求进行动态推理，并更新自己的提示，以更好地为用户提供服务。它还借鉴了心智理论实验，使得Bloom不仅仅是一个读写辅导员，而是一个广泛的学习伴侣。
 
